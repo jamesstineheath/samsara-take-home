@@ -94,6 +94,7 @@ Planning translation:
 - `[JAMES]` Structured data is what makes agentic tools work.
 - `[JAMES]` The opportunity statement reads like a clear jobs-to-be-done assignment.
 - `[JAMES]` The memo requirements are a clear way to structure the document.
+- `[JAMES]` Fleet-maintenance operations research should become a cited research report that James can read, inspect, and assess against primary sources.
 
 ### 5. Decisions Made
 
