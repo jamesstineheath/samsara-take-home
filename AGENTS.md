@@ -30,6 +30,18 @@ Challenge drift toward:
 - building more features than James can explain
 - hiding weak product judgment behind AI-generated breadth
 
+## Writing Discipline
+
+Samsara explicitly values concise, direct, plain-language writing. Apply this to every research note, prompt, memo draft, prototype label, README, and review-prep artifact.
+
+- Use short sentences and concrete operational language.
+- Separate source facts, James's views, AI inference, and draft wording.
+- Avoid jargon, consulting language, generic AI/product phrasing, and inflated claims.
+- Do not polish before the logic is sound.
+- Prefer wording James can say out loud and defend live.
+
+When prompting another model, include the style constraint from `docs/08-writing-and-prompting-guardrails.md`.
+
 ## Build Discipline
 
 When build mode starts, keep the prototype aligned to the memo's core experience. A smaller prototype James deeply understands beats a sprawling app he cannot defend.

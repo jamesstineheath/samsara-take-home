@@ -21,6 +21,14 @@ Status: structure scaffold only. This is not the take-home memo and contains no 
 
 `[SOURCE]` The prompt also asks James to use Samsara's website, research real fleet maintenance operations, state assumptions, include open questions, maintain a clear focused vision, write concisely/directly/plainly, and thoroughly review/stand by AI-assisted work.
 
+## Writing Quality Bar
+
+`[SOURCE]` Samsara values concise, direct, plain-language writing.
+
+`[JAMES]` This requirement should be explicit in all prompting.
+
+`[AI-INFERENCE]` The memo should sound like product judgment, not a polished consulting deck. Use concrete operational language, short sentences, and source-backed claims. Avoid broad AI language, inflated strategy phrasing, and generic fleet-maintenance filler.
+
 ## James's Structural Read
 
 `[JAMES]` The prompt's include-list is a clear way to structure the document.
