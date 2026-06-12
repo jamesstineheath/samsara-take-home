@@ -6,6 +6,9 @@ Use this before drafting or building. Each decision should be short enough to re
 |---|---|---|---|---|---|---|
 | 2026-06-11 | Use this first session for planning and sourcing only. | James | Accepted | User instruction. | Drafting memo now; starting prototype now. | Prevents BetterUp-style overreach. |
 | 2026-06-11 | Treat Tuesday, June 16 noon PT as the external submit target and Monday, June 15 EOD as internal done. | AI-INFERENCE, needs James approval | Proposed | Email says 1 business day before June 17 2 PM PT review; exact cutoff ambiguous. | Assume EOD Tuesday; assume Wednesday morning. | Conservative buffer. |
+| 2026-06-12 | Start with customer research framing and synthesis before any solution or prototype. | James | Accepted | James wants methodical planning and personal understanding before build. | Start building immediately; generate product concepts first. | Primary BetterUp guardrail. |
+| 2026-06-12 | Use zero-to-one judgment and traceable iteration as the core success frame. | James | Accepted | James wants to demonstrate 0-to-1 thinking, iteration, and rationale. | Optimize for impressive breadth or a chat demo. | Every artifact should be explainable backwards. |
+| 2026-06-12 | Challenge overbuilding as the highest-risk drift. | James | Accepted | James named overbuilding as critical risk. | Challenge polish or research volume first. | Also challenge premature solutioning. |
 
 ## Open Decisions Before Drafting
 
