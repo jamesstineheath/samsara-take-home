@@ -10,7 +10,7 @@ Status: research workflow scaffold. This is not the final research report and no
 
 `[JAMES]` The fleet-maintenance research should become a cited research report that James can read, inspect, and challenge source-by-source.
 
-`[JAMES]` James should read every primary source that the final proposal relies on. If regenerated research reports go too far and wide, he will not be able to skim and own all the material.
+`[JAMES]` James revised the source-review rule: he does not need to read every single primary source, but he should review a few golden samples of cited research or material and understand them.
 
 `[AI-INFERENCE]` The goal is not to maximize the number of citations. The goal is to produce a compact set of source-backed findings that James understands well enough to defend live.
 
@@ -22,12 +22,27 @@ See also `docs/09-source-review-policy.md`.
 
 Default budget for a regenerated research report:
 
-- 5-7 primary sources.
+- 3-5 golden-sample sources for James to review.
+- 5-7 total evidence sources.
 - 2-3 secondary/context sources at most.
-- Every primary source must have a James review status.
+- Every evidence source must have a role and James review status.
 - New sources should replace weak sources before increasing the total count.
 
-Do not add new sources silently. If a source is not realistic for James to read before drafting, mark it `Reference only` or leave it out.
+Do not add new sources silently. If a source is useful but not something James will review directly, mark it `Reference only`.
+
+## Golden-Sample Review Model
+
+Golden samples are the few sources James will review closely enough to own the research.
+
+Recommended golden samples:
+
+1. Assignment prompt PDF/email.
+2. Samsara Connected Maintenance product page.
+3. Sean McGee Connected Maintenance interview.
+4. One operator/customer story, likely Garden City if K-12 remains live.
+5. One hard-constraint source, such as 49 CFR Part 396 or one public supervisor job description.
+
+The report may include additional reference sources, but they should not become load-bearing unless James promotes them to golden sample, skimmed, read, or approved.
 
 ## Source-Quality Rules
 
@@ -122,8 +137,8 @@ Use this table format.
 
 | Claim | Source | Source Type | Evidence Strength | James Review | Decision Impact |
 |---|---|---|---|---|---|
-| Example: DVIR defects can create safety-critical repair obligations before operation. | 49 CFR Part 396 | Regulation | High | Unreviewed | Shapes urgency model and compliance guardrails. |
-| Example: Garden City had paper DVIR/work-order handoff problems and missed many maintenance issues before digitizing. | Samsara Garden City customer story | Named operator story | Medium-high | Unreviewed | Supports school-bus segment and communication-gap framing. |
+| Example: DVIR defects can create safety-critical repair obligations before operation. | 49 CFR Part 396 | Regulation | High | Golden sample candidate | Shapes urgency model and compliance guardrails. |
+| Example: Garden City had paper DVIR/work-order handoff problems and missed many maintenance issues before digitizing. | Samsara Garden City customer story | Named operator story | Medium-high | Golden sample candidate | Supports school-bus segment and communication-gap framing. |
 
 Evidence strength scale:
 
@@ -144,6 +159,7 @@ For each source James reads, capture:
 Tag the result:
 
 - `Queued`: source is selected for James review.
+- `Golden sample`: source is selected for James to review closely.
 - `Skimmed`: James skimmed it.
 - `Read`: James read enough to defend the relevant claim.
 - `[HUMAN-APPROVED]` James has read and can stand behind it.
@@ -152,15 +168,15 @@ Tag the result:
 
 ## Initial Primary-Source Reading Queue
 
-Read in this order to avoid research sprawl:
+Review in this order to avoid research sprawl:
 
 1. Assignment prompt: reread the exact problem and deliverables.
 2. Samsara Connected Maintenance product page: understand current product claims and avoid duplicating obvious existing features.
 3. Sean McGee interview: understand the hiring manager's product philosophy and stated pain points.
 4. Garden City Public Schools story: get one concrete operator narrative, especially if K-12 remains a candidate segment.
 5. 49 CFR Part 396: understand why defects, corrective action, unsafe operation, and records matter.
-6. 2 public maintenance supervisor/shop foreman job descriptions: ground daily responsibilities without overloading source review.
-7. One integration/workflow source from MaintainX, Fleetio, or similar: understand how DVIRs, fault codes, WOs, parts, and assignments flow across tools.
+6. Optional: 1-2 public maintenance supervisor/shop foreman job descriptions to ground daily responsibilities.
+7. Optional: one integration/workflow source from MaintainX, Fleetio, or similar to understand how DVIRs, fault codes, WOs, parts, and assignments flow across tools.
 
 Stop after this unless a scope decision depends on a missing fact.
 
@@ -183,7 +199,7 @@ Rules:
 - No product solutioning during source review.
 - Do not chase secondary links unless a primary source creates a real ambiguity.
 - Every useful source note should end with "so what decision does this affect?"
-- Do not add a source unless James can read it or it replaces a weaker source.
+- Do not add a source unless it changes a decision, replaces a weaker source, or is clearly marked `Reference only`.
 
 ## Current Candidate Research Questions
 

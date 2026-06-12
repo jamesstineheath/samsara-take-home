@@ -17,7 +17,8 @@ Record all substantive AI contributions here. James should be able to say what w
 | 2026-06-12 | Codex | Prompt review notes/todos | AI-DRAFT / JAMES capture | Needs review | Created running ledger of James's prompt annotations, generated artifacts, active todos, and drift warnings. |
 | 2026-06-12 | Codex | Samsara product page review capture | AI-DRAFT | Needs review | Created manual review sheet for James to annotate current Connected Maintenance product claims before synthesis. |
 | 2026-06-12 | Codex | Writing and prompting guardrails | AI-DRAFT / JAMES capture | Needs review | Captured concise, direct, plain-language writing as a project-wide prompting and drafting rule. |
-| 2026-06-12 | Codex | Source review policy | AI-DRAFT / JAMES capture | Needs review | Captured James's requirement to personally review every primary source used and bounded future research-report source sets. |
+| 2026-06-12 | Codex | Source review policy | AI-DRAFT / JAMES capture | Superseded by revision | Captured James's initial requirement to personally review every primary source used and bounded future research-report source sets. |
+| 2026-06-12 | Codex | Source review policy revision | AI-DRAFT / JAMES capture | Needs review | Revised source policy from read-every-primary-source to golden-sample review model based on James's research-depth annotation. |
 
 ## Tags
 
