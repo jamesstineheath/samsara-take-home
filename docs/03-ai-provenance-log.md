@@ -11,6 +11,7 @@ Record all substantive AI contributions here. James should be able to say what w
 | 2026-06-12 | Codex | Maintenance supervisor persona primer | AI-INFERENCE | Needs review | Synthesized persona, flows, tool landscape, and target-industry options from sourced research and James's browser annotation. |
 | 2026-06-12 | Codex | Whiteboards and structured data primer | AI-INFERENCE | Needs review | Synthesized why whiteboards persist, what data they encode, and what structured context agentic tools need from James's browser annotation and sourced research. |
 | 2026-06-12 | Codex | JTBD framing | AI-DRAFT / AI-INFERENCE | Needs review | Translated James's JTBD annotation into candidate core job, job hierarchy, outcomes, guardrails, and pre-drafting decisions. |
+| 2026-06-12 | Codex | Product memo structure | AI-DRAFT / AI-INFERENCE | Needs review | Converted James's structure annotation and the prompt requirements into a non-drafting memo spine, page budget, and anti-drift guardrails. |
 
 ## Tags
 

@@ -93,6 +93,7 @@ Planning translation:
 - `[JAMES]` Need to understand why planning persists on whiteboards and in people's heads, and respect that as a major pain point.
 - `[JAMES]` Structured data is what makes agentic tools work.
 - `[JAMES]` The opportunity statement reads like a clear jobs-to-be-done assignment.
+- `[JAMES]` The memo requirements are a clear way to structure the document.
 
 ### 5. Decisions Made
 
