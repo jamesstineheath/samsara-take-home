@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Samsara Take-Home Prompt - Annotatable</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f5f0;
+      --paper: #ffffff;
+      --ink: #1f2933;
+      --muted: #667085;
+      --rule: #d9dee7;
+      --accent: #116149;
+      --soft: #e7f3ee;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    main {
+      width: min(900px, calc(100% - 32px));
+      margin: 32px auto;
+      padding: 40px;
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+    }
+
+    h1,
+    h2 {
+      line-height: 1.2;
+      margin: 0 0 16px;
+    }
+
+    h1 {
+      font-size: 28px;
+    }
+
+    h2 {
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid var(--rule);
+      font-size: 20px;
+    }
+
+    p,
+    li {
+      font-size: 16px;
+    }
+
+    p {
+      margin: 12px 0;
+    }
+
+    ul {
+      margin: 10px 0 18px 22px;
+      padding: 0;
+    }
+
+    .meta {
+      margin: 0 0 28px;
+      padding: 14px 16px;
+      border-left: 4px solid var(--accent);
+      background: var(--soft);
+      color: var(--muted);
+      border-radius: 4px;
+    }
+
+    .prompt-block {
+      position: relative;
+      margin: 12px 0;
+    }
+
+    .prompt-block::before {
+      content: attr(data-id);
+      position: absolute;
+      left: -28px;
+      top: 2px;
+      color: #98a2b3;
+      font-size: 12px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    @media (max-width: 640px) {
+      main {
+        width: 100%;
+        margin: 0;
+        padding: 28px;
+        border: 0;
+        border-radius: 0;
+      }
+
+      .prompt-block::before {
+        position: static;
+        display: block;
+        margin-bottom: 4px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Samsara Take-Home Prompt - Annotatable</h1>
+    <p class="meta">Faithful transcription from <code>sources/Homework_-_Principal_PM_Connected_Asset_Maintenance.pdf</code>. Use Codex comments on this file for reactions, questions, and product instincts.</p>
+
+    <h2 id="title">Homework Assignment: Principal PM - Connected Asset Maintenance</h2>
+
+    <h2 id="background">Background</h2>
+    <p class="prompt-block" data-id="B1">Samsara's Connected Asset Maintenance product helps fleet and equipment operators manage work orders, preventive maintenance schedules, parts inventory, and vendor relationships - all connected to the real-time vehicle and equipment data flowing through Samsara's IoT platform (fault codes, engine diagnostics, usage data, GPS location, and more).</p>
+    <p class="prompt-block" data-id="B2">Today, a maintenance supervisor starting their morning shift has to piece together "what should my team work on today?" from multiple sources - work order lists, overdue PM schedules, DVIR defect reports, active fault codes, and their own mental model of what's in the shop.</p>
+    <p class="prompt-block" data-id="B3">Most of this planning still happens on whiteboards and in people's heads, even when they have software tools available.</p>
+    <p class="prompt-block" data-id="B4">We believe there's an opportunity to build an experience that helps maintenance supervisors plan their team's daily work - bringing together everything that needs attention, who's available to work on it, and what should be prioritized.</p>
+
+    <h2 id="assignment">The Assignment</h2>
+
+    <h2 id="part-1">Part 1: Product Memo</h2>
+    <p class="prompt-block" data-id="P1">Write a short product memo (strict 4 page maximum, shorter is fine) describing how you'd approach this problem.</p>
+    <p class="prompt-block" data-id="P2">Include:</p>
+    <ul>
+      <li class="prompt-block" data-id="P2a">The value this will provide to customers and why it matters</li>
+      <li class="prompt-block" data-id="P2b">How you'd measure success</li>
+      <li class="prompt-block" data-id="P2c">Roughly what you think the UX should be</li>
+      <li class="prompt-block" data-id="P2d">A clear recommendation on where and how to start (what's in v1 vs. what comes later)</li>
+    </ul>
+    <p class="prompt-block" data-id="P3">Use Samsara's website (samsara.com/products/maintenance) to familiarize yourself with the current product.</p>
+    <p class="prompt-block" data-id="P4">Research how fleet maintenance operations actually work - the more specific and grounded your thinking, the better.</p>
+    <p class="prompt-block" data-id="P5">Make assumptions as necessary (we won't be answering questions about the assignment) and state them where relevant.</p>
+    <p class="prompt-block" data-id="P6">Include a set of open questions you'd want to dig into further.</p>
+    <p class="prompt-block" data-id="P7">The strongest memos have a clear, focused vision and a specific point of view on what matters most.</p>
+    <p class="prompt-block" data-id="P8">We value concise, direct, plain-language writing.</p>
+    <p class="prompt-block" data-id="P9">Use of AI tools for research and writing is highly encouraged, though you must thoroughly review and stand by the final proposal.</p>
+
+    <h2 id="part-2">Part 2: Working Prototype</h2>
+    <p class="prompt-block" data-id="W1">Using AI coding tools (Cursor, Claude Code, Codex, or any AI-assisted coding tool of your choice), build a working prototype of the core experience you described in your memo.</p>
+    <p class="prompt-block" data-id="W2">This should be a real application with a frontend and a backend - not a Figma mockup or a static page.</p>
+    <p class="prompt-block" data-id="W3">Mocking input data that would likely be present in Samsara's system is of course fine.</p>
+    <p class="prompt-block" data-id="W4">The prototype doesn't need to be production-ready, but it should be functional enough to demonstrate the key interactions and give us a feel for how the experience would work.</p>
+    <p class="prompt-block" data-id="W5">We're evaluating:</p>
+    <ul>
+      <li class="prompt-block" data-id="W5a">Product thinking - Does the prototype reflect a clear, opinionated view of what matters to the user?</li>
+      <li class="prompt-block" data-id="W5b">Research depth - Does the experience reflect thorough domain research and genuine curiosity about how maintenance operations actually run?</li>
+      <li class="prompt-block" data-id="W5c">Craft and ambition - How far did you push it? Did you consider the nuances of the UX, even in an early prototype?</li>
+      <li class="prompt-block" data-id="W5d">AI tool fluency - How effectively did you leverage AI tools to move fast? We'd love to hear briefly about your process.</li>
+    </ul>
+    <p class="prompt-block" data-id="W6">You're welcome to use any tech stack.</p>
+    <p class="prompt-block" data-id="W7">Include a README with instructions to run the app locally.</p>
+
+    <h2 id="submission">Submission</h2>
+    <p class="prompt-block" data-id="S1">Please send both the memo (PDF or Google Doc) and a link to the prototype (providing the files and a README to run locally is fine - no need to host it).</p>
+  </main>
+</body>
+</html>
