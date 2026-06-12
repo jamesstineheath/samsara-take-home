@@ -92,6 +92,7 @@ Planning translation:
 - `[JAMES]` It will probably be useful to pick a target persona in a target industry to make the demo concrete.
 - `[JAMES]` Need to understand why planning persists on whiteboards and in people's heads, and respect that as a major pain point.
 - `[JAMES]` Structured data is what makes agentic tools work.
+- `[JAMES]` The opportunity statement reads like a clear jobs-to-be-done assignment.
 
 ### 5. Decisions Made
 
