@@ -191,7 +191,7 @@ Decision gate: no new scope after this point.
 
 Morning 90 minutes - Final packaging.
 
-Output: memo PDF/Doc, repo/package checked, run instructions verified from clean start.
+Output: Google Doc memo, hosted prototype URL, repo/package checked, run instructions verified from clean start, optional PDF backup.
 
 By noon PT - Submit.
 

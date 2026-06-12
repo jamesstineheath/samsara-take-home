@@ -24,6 +24,7 @@ Purpose: running ledger of James's annotations while reviewing the Samsara promp
 | Assumptions instruction | `[JAMES]` This should be a canonical log maintained throughout the project. | `docs/06-assumption-log.md` | Add every scope/data/product assumption before it enters memo or prototype. | Active |
 | Plain-language writing | `[JAMES]` Make sure concise, direct, plain-language writing is clear in all prompting. | `docs/08-writing-and-prompting-guardrails.md`; `AGENTS.md`; `docs/05-product-memo-structure.md` | Include style constraint in future prompts to Codex, Claude Fabel, and any research/drafting/build model. | Active |
 | AI tool use / stand behind final proposal | `[JAMES]` Revised: James does not need to read every single primary source. He should review a few golden samples of cited research/material and understand them. | `docs/09-source-review-policy.md`; `research/05-primary-source-research-report-scaffold.md`; `AGENTS.md` | Keep research source set bounded, identify golden samples, and do not add new primary sources silently. | Active |
+| Submission format | `[JAMES]` Hosting is no problem. Use a Google Doc for the memo because it will be easier for the reviewer. | `docs/10-submission-packaging-plan.md`; `docs/02-decision-log.md` | Later choose hosting provider, share settings, and final submission links. | Accepted |
 
 ## Active Todos
 
@@ -36,6 +37,7 @@ Purpose: running ledger of James's annotations while reviewing the Samsara promp
 7. Codex records each assumption in `docs/06-assumption-log.md` before it appears in the memo/prototype.
 8. Every future AI prompt includes the concise/direct/plain-language writing rule from `docs/08-writing-and-prompting-guardrails.md`.
 9. Every regenerated research report follows `docs/09-source-review-policy.md`, identifies 3-5 golden samples, and includes James review status for each evidence source.
+10. Final packaging should use a Google Doc memo and hosted prototype link, with README/local run instructions as fallback.
 
 ## Drift Warnings
 
@@ -45,3 +47,4 @@ Purpose: running ledger of James's annotations while reviewing the Samsara promp
 - Do not hide James's judgment behind AI-polished synthesis.
 - Do not accept AI prose that sounds polished but generic.
 - Do not let AI expand the source list beyond what James can understand and defend through golden samples.
+- Do not polish submission packaging before the product logic is sound.

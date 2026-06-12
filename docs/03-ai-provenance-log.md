@@ -19,6 +19,7 @@ Record all substantive AI contributions here. James should be able to say what w
 | 2026-06-12 | Codex | Writing and prompting guardrails | AI-DRAFT / JAMES capture | Needs review | Captured concise, direct, plain-language writing as a project-wide prompting and drafting rule. |
 | 2026-06-12 | Codex | Source review policy | AI-DRAFT / JAMES capture | Superseded by revision | Captured James's initial requirement to personally review every primary source used and bounded future research-report source sets. |
 | 2026-06-12 | Codex | Source review policy revision | AI-DRAFT / JAMES capture | Needs review | Revised source policy from read-every-primary-source to golden-sample review model based on James's research-depth annotation. |
+| 2026-06-12 | Codex | Submission packaging plan | AI-DRAFT / JAMES capture | Needs review | Captured James's decision to use a Google Doc memo and hosted prototype link, with README/local fallback. |
 
 ## Tags
 

@@ -9,6 +9,8 @@ Use this before drafting or building. Each decision should be short enough to re
 | 2026-06-12 | Start with customer research framing and synthesis before any solution or prototype. | James | Accepted | James wants methodical planning and personal understanding before build. | Start building immediately; generate product concepts first. | Primary BetterUp guardrail. |
 | 2026-06-12 | Use zero-to-one judgment and traceable iteration as the core success frame. | James | Accepted | James wants to demonstrate 0-to-1 thinking, iteration, and rationale. | Optimize for impressive breadth or a chat demo. | Every artifact should be explainable backwards. |
 | 2026-06-12 | Challenge overbuilding as the highest-risk drift. | James | Accepted | James named overbuilding as critical risk. | Challenge polish or research volume first. | Also challenge premature solutioning. |
+| 2026-06-12 | Submit the memo as a Google Doc. | James | Accepted | Prompt allows PDF or Google Doc; James says Google Doc is easier for the reviewer. | PDF-only submission. | Keep optional PDF export as backup. |
+| 2026-06-12 | Plan to host the prototype and still provide README/run instructions. | James | Accepted | Prompt allows local files, but James says hosting is not a problem. | Local-only prototype submission. | Hosting provider remains open. |
 
 ## Open Decisions Before Drafting
 
@@ -19,5 +21,6 @@ Use this before drafting or building. Each decision should be short enough to re
 - Level of AI in v1.
 - Metrics that define customer value.
 - Prototype depth and tech stack.
+- Prototype hosting provider and sharing mode.
 - Research stop rule.
 - What Sean should remember after the review.
