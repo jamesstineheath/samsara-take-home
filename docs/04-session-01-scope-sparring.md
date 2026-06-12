@@ -90,6 +90,8 @@ Planning translation:
 
 - `[JAMES]` Need a primer on the maintenance supervisor persona, what user flows and tools look like, and likely target industries/personas for a strong demo.
 - `[JAMES]` It will probably be useful to pick a target persona in a target industry to make the demo concrete.
+- `[JAMES]` Need to understand why planning persists on whiteboards and in people's heads, and respect that as a major pain point.
+- `[JAMES]` Structured data is what makes agentic tools work.
 
 ### 5. Decisions Made
 

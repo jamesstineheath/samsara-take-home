@@ -9,6 +9,7 @@ Record all substantive AI contributions here. James should be able to say what w
 | 2026-06-12 | James | Session 01 scope sparring | JAMES | Human-authored | Defined success as zero-to-one thinking, visible iteration, non-chat-demo judgment, and backwards-traceable rationale. |
 | 2026-06-12 | Codex | Reed text synthesis | AI-INFERENCE | Needs review | Extracted planning signals from Reed texts: agentic but not pure chat, deterministic surfaces, physical interaction constraints. |
 | 2026-06-12 | Codex | Maintenance supervisor persona primer | AI-INFERENCE | Needs review | Synthesized persona, flows, tool landscape, and target-industry options from sourced research and James's browser annotation. |
+| 2026-06-12 | Codex | Whiteboards and structured data primer | AI-INFERENCE | Needs review | Synthesized why whiteboards persist, what data they encode, and what structured context agentic tools need from James's browser annotation and sourced research. |
 
 ## Tags
 
