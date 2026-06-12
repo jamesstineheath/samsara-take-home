@@ -42,6 +42,16 @@ Samsara explicitly values concise, direct, plain-language writing. Apply this to
 
 When prompting another model, include the style constraint from `docs/08-writing-and-prompting-guardrails.md`.
 
+## Source Discipline
+
+Because the prompt explicitly encourages AI use while requiring James to stand by the final proposal, every primary source used as evidence must be small enough for James to review personally.
+
+- Follow `docs/09-source-review-policy.md` for source budgets and review labels.
+- Do not add new primary sources silently when regenerating research reports.
+- Separate evidence sources from background-only sources.
+- Prefer a small source set James can defend over a broad citation list.
+- No source-backed claim should enter the memo unless the source is queued for James review or marked approved.
+
 ## Build Discipline
 
 When build mode starts, keep the prototype aligned to the memo's core experience. A smaller prototype James deeply understands beats a sprawling app he cannot defend.

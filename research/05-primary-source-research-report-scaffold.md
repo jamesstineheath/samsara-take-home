@@ -10,9 +10,24 @@ Status: research workflow scaffold. This is not the final research report and no
 
 `[JAMES]` The fleet-maintenance research should become a cited research report that James can read, inspect, and challenge source-by-source.
 
+`[JAMES]` James should read every primary source that the final proposal relies on. If regenerated research reports go too far and wide, he will not be able to skim and own all the material.
+
 `[AI-INFERENCE]` The goal is not to maximize the number of citations. The goal is to produce a compact set of source-backed findings that James understands well enough to defend live.
 
 `[AI-INFERENCE]` The research report should answer: how does fleet maintenance planning actually work, what makes the morning planning job hard, and which facts should constrain the take-home scope?
+
+See also `docs/09-source-review-policy.md`.
+
+## Source Budget
+
+Default budget for a regenerated research report:
+
+- 5-7 primary sources.
+- 2-3 secondary/context sources at most.
+- Every primary source must have a James review status.
+- New sources should replace weak sources before increasing the total count.
+
+Do not add new sources silently. If a source is not realistic for James to read before drafting, mark it `Reference only` or leave it out.
 
 ## Source-Quality Rules
 
@@ -128,6 +143,9 @@ For each source James reads, capture:
 
 Tag the result:
 
+- `Queued`: source is selected for James review.
+- `Skimmed`: James skimmed it.
+- `Read`: James read enough to defend the relevant claim.
 - `[HUMAN-APPROVED]` James has read and can stand behind it.
 - `[JAMES-QUESTION]` James wants to inspect further.
 - `[REJECTED]` Not credible or not useful.
@@ -141,7 +159,7 @@ Read in this order to avoid research sprawl:
 3. Sean McGee interview: understand the hiring manager's product philosophy and stated pain points.
 4. Garden City Public Schools story: get one concrete operator narrative, especially if K-12 remains a candidate segment.
 5. 49 CFR Part 396: understand why defects, corrective action, unsafe operation, and records matter.
-6. 2-3 public maintenance supervisor/shop foreman job descriptions: ground daily responsibilities.
+6. 2 public maintenance supervisor/shop foreman job descriptions: ground daily responsibilities without overloading source review.
 7. One integration/workflow source from MaintainX, Fleetio, or similar: understand how DVIRs, fault codes, WOs, parts, and assignments flow across tools.
 
 Stop after this unless a scope decision depends on a missing fact.
@@ -165,6 +183,7 @@ Rules:
 - No product solutioning during source review.
 - Do not chase secondary links unless a primary source creates a real ambiguity.
 - Every useful source note should end with "so what decision does this affect?"
+- Do not add a source unless James can read it or it replaces a weaker source.
 
 ## Current Candidate Research Questions
 
