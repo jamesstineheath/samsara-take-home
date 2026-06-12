@@ -95,6 +95,12 @@ Planning translation:
 - `[JAMES]` The opportunity statement reads like a clear jobs-to-be-done assignment.
 - `[JAMES]` The memo requirements are a clear way to structure the document.
 - `[JAMES]` Fleet-maintenance operations research should become a cited research report that James can read, inspect, and assess against primary sources.
+- `[JAMES]` Assumptions should be tracked in a canonical log throughout the project.
+- `[JAMES]` Prompt review notes and todos should be captured as James annotates the prompt.
+
+### 4a. Prompt Review Todo Capture
+
+See `docs/07-prompt-review-notes-and-todos.md` for the running ledger of James's prompt annotations, created artifacts, and active todos.
 
 ### 5. Decisions Made
 

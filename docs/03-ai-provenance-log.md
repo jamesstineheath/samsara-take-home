@@ -13,6 +13,9 @@ Record all substantive AI contributions here. James should be able to say what w
 | 2026-06-12 | Codex | JTBD framing | AI-DRAFT / AI-INFERENCE | Needs review | Translated James's JTBD annotation into candidate core job, job hierarchy, outcomes, guardrails, and pre-drafting decisions. |
 | 2026-06-12 | Codex | Product memo structure | AI-DRAFT / AI-INFERENCE | Needs review | Converted James's structure annotation and the prompt requirements into a non-drafting memo spine, page budget, and anti-drift guardrails. |
 | 2026-06-12 | Codex | Primary-source research report scaffold | AI-DRAFT / AI-INFERENCE | Needs review | Converted James's research annotation into a cited-report workflow, source-quality rules, reading queue, and claim-review table. |
+| 2026-06-12 | Codex | Assumption log | AI-DRAFT | Needs review | Created canonical assumptions log seeded with source-backed prompt/process assumptions and the Samsara URL mismatch. |
+| 2026-06-12 | Codex | Prompt review notes/todos | AI-DRAFT / JAMES capture | Needs review | Created running ledger of James's prompt annotations, generated artifacts, active todos, and drift warnings. |
+| 2026-06-12 | Codex | Samsara product page review capture | AI-DRAFT | Needs review | Created manual review sheet for James to annotate current Connected Maintenance product claims before synthesis. |
 
 ## Tags
 
