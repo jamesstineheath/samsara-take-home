@@ -90,6 +90,21 @@ Initial bounded set:
 | 2 public supervisor/shop-foreman job descriptions | Role grounding | Queued | Pick 2, not 10. |
 | 1 integration/workflow source | Tool-flow vocabulary | Queued | Pick MaintainX, Fleetio, or similar; reference only unless very concrete. |
 
+## Hertz Rental-Fleet Source Set Added 2026-06-14
+
+Triggered by James asking for deeper research into "how fleet maintenance operations actually work" and suggesting Hertz as the representative customer.
+
+| Source | Role | Review Status | Notes |
+|---|---|---|---|
+| Assignment prompt PDF/email | Source of assignment constraints | Golden sample | Still required. |
+| Hertz Q1 2026 results | Hertz operating metrics and current transformation context | Golden sample | Use utilization, RPU, RPD, DPU, DOE, recalls, and fleet planning. |
+| Hertz and Uber/Oro Mobility announcement | Hertz as large-scale fleet operations layer | Golden sample | Use for maintenance, repairs, cleaning, charging, depot staffing, orchestration. |
+| LAWA LAX Rental Car Center announcement plus Hertz LAX page | Physical landmark and 24/7 rental operation context | Golden sample | Use for LAX, consolidated rental operations, fueling, washing, light maintenance, vehicle availability. |
+| Hertz maintenance voucher / rideshare maintenance / maintenance portal | Vendor approval and approved repair-location workflow | Golden sample | Use for work orders, vouchers, approved shops, external maintenance paths. |
+| Fleetio fleet maintenance guide | General fleet-maintenance workflow vocabulary | Reference | Use to explain PM, inspections, work orders, assignment, metrics. |
+| Hertz mechanic recruiting page | Technician work grounding | Reference | Use for PM, light repair, deeper repair, safety, shop equipment, fast-paced work. |
+| Hertz and UVeye, Samsara Fort Lauderdale, Automotive Fleet historical Hertz article | Context-only sources | Reference only | Use only when the main sources do not cover inspection signals, analogous scheduling, or historical rental-car operating pattern. |
+
 ## Anti-Drift Rule
 
 Do not produce a new, wider research report because it feels more impressive. Produce a smaller report with a few sources James knows well.

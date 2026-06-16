@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">Hertz LAX maintenance supervisor data flow</title>
+  <desc id="desc">A diagram showing maintenance truth, rental operations truth, and local shop truth flowing into a predictive morning brief, which links back to existing Samsara maintenance surfaces.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7fafc; }
+      .panel { fill: #ffffff; stroke: #d8e2eb; stroke-width: 2; }
+      .panelBlue { fill: #eef6ff; stroke: #b7d8f8; stroke-width: 2; }
+      .panelGreen { fill: #edf9f3; stroke: #b7e2ca; stroke-width: 2; }
+      .panelAmber { fill: #fff8ed; stroke: #ebd3aa; stroke-width: 2; }
+      .text { font-family: Arial, Helvetica, sans-serif; fill: #0b2638; }
+      .title { font-size: 28px; font-weight: 700; }
+      .subtitle { font-size: 16px; fill: #536879; }
+      .head { font-size: 18px; font-weight: 700; }
+      .body { font-size: 14px; fill: #31475b; }
+      .small { font-size: 12px; fill: #5c7080; }
+      .arrow { stroke: #7b91a4; stroke-width: 2.5; fill: none; marker-end: url(#arrowhead); }
+      .strongArrow { stroke: #0866d5; stroke-width: 3; fill: none; marker-end: url(#bluearrow); }
+      .pill { fill: #ffffff; stroke: #cbd8e3; stroke-width: 1.5; }
+      .pillText { font-size: 13px; fill: #31475b; }
+    </style>
+    <marker id="arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#7b91a4"/>
+    </marker>
+    <marker id="bluearrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0866d5"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1200" height="680"/>
+  <text class="text title" x="60" y="62">What the supervisor has to reconcile before the morning huddle</text>
+  <text class="text subtitle" x="60" y="92">The brief is useful because no single source answers: what should my team focus on first today?</text>
+
+  <rect class="panel" x="60" y="130" width="270" height="390" rx="12"/>
+  <text class="text head" x="85" y="165">Maintenance truth</text>
+  <text class="text body" x="85" y="202">Open work orders</text>
+  <text class="text body" x="85" y="232">PMs due soon</text>
+  <text class="text body" x="85" y="262">DVIR defects and faults</text>
+  <text class="text body" x="85" y="292">Asset history</text>
+  <text class="text body" x="85" y="322">Parts and POs</text>
+  <text class="text body" x="85" y="352">Warranty and vendors</text>
+  <text class="text small" x="85" y="412">Often in Samsara or connected CMMS tools.</text>
+
+  <rect class="panel" x="465" y="130" width="270" height="390" rx="12"/>
+  <text class="text head" x="490" y="165">Rental operations truth</text>
+  <text class="text body" x="490" y="202">Vehicle class shortages</text>
+  <text class="text body" x="490" y="232">Ready-line inventory</text>
+  <text class="text body" x="490" y="262">Returns and holds</text>
+  <text class="text body" x="490" y="292">Clean, fuel, charge state</text>
+  <text class="text body" x="490" y="322">Pickup demand by time</text>
+  <text class="text body" x="490" y="352">Substitution constraints</text>
+  <text class="text small" x="490" y="412">Often in rental ops systems or local tools.</text>
+
+  <rect class="panel" x="870" y="130" width="270" height="390" rx="12"/>
+  <text class="text head" x="895" y="165">Local shop truth</text>
+  <text class="text body" x="895" y="202">Who is on shift</text>
+  <text class="text body" x="895" y="232">Technician skills</text>
+  <text class="text body" x="895" y="262">Bay and lot state</text>
+  <text class="text body" x="895" y="292">Parts actually usable</text>
+  <text class="text body" x="895" y="322">Vendor reliability today</text>
+  <text class="text body" x="895" y="352">What can safely wait</text>
+  <text class="text small" x="895" y="412">Often in heads, huddles, texts, and whiteboards.</text>
+
+  <rect class="panelBlue" x="350" y="555" width="500" height="82" rx="14"/>
+  <text class="text head" x="390" y="586">Connected Maintenance &gt; Morning Brief</text>
+  <text class="text body" x="390" y="614">Rolls up focus areas, blockers, priority, and deep links into existing tools.</text>
+
+  <path class="strongArrow" d="M 195 520 C 250 570, 310 590, 350 596"/>
+  <path class="strongArrow" d="M 600 520 L 600 555"/>
+  <path class="strongArrow" d="M 1005 520 C 950 570, 890 590, 850 596"/>
+
+  <rect class="panelGreen" x="60" y="565" width="220" height="62" rx="12"/>
+  <text class="text body" x="82" y="590">Contextual badges</text>
+  <text class="text small" x="82" y="612">Inventory, WOs, assets, faults</text>
+
+  <rect class="panelAmber" x="920" y="565" width="220" height="62" rx="12"/>
+  <text class="text body" x="942" y="590">Light feedback</text>
+  <text class="text small" x="942" y="612">Planned, blocked, vendor, irrelevant</text>
+
+  <path class="arrow" d="M 350 596 L 280 596"/>
+  <path class="arrow" d="M 850 596 L 920 596"/>
+
+  <rect class="pill" x="380" y="453" width="116" height="34" rx="17"/>
+  <text class="text pillText" x="404" y="475">Ready now</text>
+  <rect class="pill" x="508" y="453" width="122" height="34" rx="17"/>
+  <text class="text pillText" x="532" y="475">Blocked</text>
+  <rect class="pill" x="642" y="453" width="154" height="34" rx="17"/>
+  <text class="text pillText" x="664" y="475">Needs review</text>
+</svg>
