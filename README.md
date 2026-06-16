@@ -2,7 +2,7 @@
 
 This repo is for planning, building, and reviewing the Samsara Principal PM - Maintenance take-home.
 
-Current boundary: planning and sparring only. Do not draft the memo or prototype solution until the strategy, scope, evidence plan, and decision gates are accepted.
+Current boundary: prototype build planning. The memo now lives in Google Docs as the canonical document, and the prototype direction is Predictive Shift Brief for Hertz LAX.
 
 ## Working Files
 
@@ -13,7 +13,7 @@ Current boundary: planning and sparring only. Do not draft the memo or prototype
 - `sources/` - source inventory and source excerpts, not raw private emails unless intentionally added.
 - `research/` - bounded domain and company research.
 - `memo/` - memo drafts and final PDF/export later.
-- `prototype/` - app code later.
+- `prototype/` - prototype build plan, mock data model, feedback loop, and app code once build starts.
 - `review/` - live review notes, rehearsal script, and stress tests.
 
 ## Operating Rule

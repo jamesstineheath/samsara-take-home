@@ -18,14 +18,16 @@ Status: deliverable packaging decision. This does not change product scope.
 
 `[JAMES]` Use a Google Doc for the memo because it is easier for the reviewer to use.
 
+`[JAMES]` Canonical memo document: https://docs.google.com/document/d/1dnKK33IUMR6ZnNyZMWJpKV9zKxZBWwPjsXiSuqAzKEk/edit?tab=t.0#heading=h.8zgdrfx486jm
+
 `[JAMES]` Hosting the prototype is acceptable; no need to rely only on local files.
 
 ## Planned Submission Package
 
 Primary deliverables:
 
-- Google Doc memo.
-- Hosted prototype URL.
+- Google Doc memo: https://docs.google.com/document/d/1dnKK33IUMR6ZnNyZMWJpKV9zKxZBWwPjsXiSuqAzKEk/edit?tab=t.0#heading=h.8zgdrfx486jm
+- Hosted prototype URL: https://prototype-xi-lemon.vercel.app
 - GitHub repo link or package link with README/run instructions.
 
 Fallback deliverables:
@@ -48,7 +50,7 @@ Before submission:
 
 ## Open Packaging Decisions
 
-- Hosting provider for prototype.
+- Hosting provider for prototype. Current deployment uses Vercel.
 - Whether prototype link should be public, unlisted, or password-protected.
 - Whether to share the Google Doc with view-only or comment permissions.
 - Whether to include the private GitHub repo directly or send a packaged archive/README link.
@@ -57,3 +59,9 @@ Before submission:
 ## Anti-Drift Rule
 
 Do not spend early time polishing submission packaging before the product logic is sound. Packaging matters late; scope and rationale matter now.
+
+## Source Of Truth
+
+The Google Doc is the canonical memo. Local Markdown and Notion versions are working history unless James explicitly moves canonical ownership again.
+
+Future memo edits should be applied directly to the Google Doc through the Google Docs connector when possible. If connector write access fails or a change is safer for James to review manually, provide paste-ready replacement text targeted to the exact section.

@@ -1,0 +1,963 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hertz LAX Asset Uptime Systems and Data Flow</title>
+  <style>
+    :root {
+      --ink: #102033;
+      --muted: #526174;
+      --line: #c9d4df;
+      --soft: #f5f8fb;
+      --blue: #dff0ff;
+      --blue-border: #4b91d1;
+      --orange: #fff0de;
+      --orange-border: #e88b2c;
+      --green: #e4f7ec;
+      --green-border: #2c9b60;
+      --gray: #eef2f5;
+      --gray-border: #7d8997;
+      --red: #ffe8e6;
+      --red-border: #d65448;
+      --purple: #eee8ff;
+      --purple-border: #7664c9;
+      --paper: #ffffff;
+      --shadow: 0 8px 24px rgba(15, 31, 48, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f8fafc;
+      line-height: 1.45;
+    }
+
+    header {
+      padding: 40px clamp(20px, 5vw, 64px) 26px;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+    }
+
+    main {
+      padding: 28px clamp(20px, 5vw, 64px) 72px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(34px, 5vw, 56px);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 42px 0 16px;
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0 0 12px;
+      max-width: 920px;
+    }
+
+    .eyebrow {
+      color: #27618e;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .lede {
+      font-size: clamp(18px, 2vw, 24px);
+      color: var(--muted);
+      max-width: 980px;
+    }
+
+    .source-note {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 30px;
+      padding: 5px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--paper);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin: 28px 0;
+    }
+
+    .summary-card,
+    .section-card,
+    .node,
+    .table-wrap,
+    .timeline-block,
+    .question-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .summary-card {
+      padding: 18px;
+      min-height: 152px;
+    }
+
+    .summary-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+    }
+
+    .summary-card p {
+      color: var(--muted);
+      font-size: 15px;
+      margin: 0;
+    }
+
+    .map-shell {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 20px;
+      overflow-x: auto;
+    }
+
+    .flow-map {
+      min-width: 1120px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.22fr 1fr 0.22fr 1.05fr 0.22fr 1fr;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .column {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .column-title {
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-weight: 800;
+      border: 1px solid var(--line);
+      background: var(--soft);
+    }
+
+    .node {
+      padding: 14px;
+      min-height: 118px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .node p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .node ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .blue {
+      background: var(--blue);
+      border-color: var(--blue-border);
+    }
+
+    .orange {
+      background: var(--orange);
+      border-color: var(--orange-border);
+    }
+
+    .green {
+      background: var(--green);
+      border-color: var(--green-border);
+    }
+
+    .gray {
+      background: var(--gray);
+      border-color: var(--gray-border);
+    }
+
+    .red {
+      background: var(--red);
+      border-color: var(--red-border);
+    }
+
+    .purple {
+      background: var(--purple);
+      border-color: var(--purple-border);
+    }
+
+    .arrow-col {
+      display: grid;
+      align-items: center;
+      justify-items: center;
+      min-height: 100%;
+    }
+
+    .arrow {
+      width: 100%;
+      height: 3px;
+      background: #7b8998;
+      position: relative;
+    }
+
+    .arrow::after {
+      content: "";
+      position: absolute;
+      right: -1px;
+      top: 50%;
+      width: 0;
+      height: 0;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-left: 12px solid #7b8998;
+      transform: translateY(-50%);
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .swatch {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 1px solid;
+      flex: 0 0 auto;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .section-card {
+      padding: 18px;
+    }
+
+    .section-card p,
+    .section-card li {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .section-card ul {
+      margin: 10px 0 0;
+      padding-left: 18px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      padding: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 900px;
+      background: var(--paper);
+    }
+
+    th,
+    td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+
+    th {
+      background: #edf3f8;
+      color: #25384d;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    td {
+      color: var(--muted);
+    }
+
+    td strong {
+      color: var(--ink);
+    }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+    }
+
+    .timeline-block {
+      display: grid;
+      grid-template-columns: 180px minmax(0, 1fr);
+      gap: 16px;
+      padding: 16px;
+    }
+
+    .time {
+      font-weight: 800;
+      color: #214f75;
+    }
+
+    .timeline-block p {
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .feasibility {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      border: 1px solid var(--line);
+      color: var(--ink);
+      background: #f5f8fb;
+      white-space: nowrap;
+    }
+
+    .loop-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(150px, 1fr));
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .loop-step {
+      min-height: 170px;
+      padding: 14px;
+      border-radius: 8px;
+      border: 1px solid var(--green-border);
+      background: var(--green);
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .loop-step::after {
+      content: "→";
+      position: absolute;
+      right: -12px;
+      top: 18px;
+      color: #536273;
+      font-weight: 900;
+      font-size: 18px;
+    }
+
+    .loop-step:last-child::after {
+      content: "";
+    }
+
+    .loop-step h3 {
+      font-size: 16px;
+    }
+
+    .loop-step p {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .break-table td:first-child {
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .questions {
+      display: grid;
+      gap: 12px;
+    }
+
+    .question-card {
+      padding: 16px;
+      border-left: 5px solid var(--purple-border);
+    }
+
+    .question-card p {
+      margin: 0;
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    footer {
+      padding: 24px clamp(20px, 5vw, 64px);
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      background: var(--paper);
+      font-size: 13px;
+    }
+
+    @media (max-width: 880px) {
+      .summary,
+      .two-col,
+      .three-col {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline-block {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="eyebrow">Samsara take-home research · Hertz LAX</div>
+    <h1>Systems and Data Flow for an Asset Uptime Planner</h1>
+    <p class="lede">A map of how the Hertz LAX maintenance supervisor's day-in-life connects to existing systems, data objects, output loops, gaps, and feasible product boundaries.</p>
+    <div class="source-note">
+      <span class="pill">Representative customer: Hertz LAX</span>
+      <span class="pill">Primary user: Fleet Services Supervisor</span>
+      <span class="pill">Frame: Asset Uptime</span>
+      <span class="pill">Status: research artifact for annotation</span>
+      <span class="pill">Stops before metrics</span>
+    </div>
+  </header>
+
+  <main>
+    <section aria-labelledby="core-read">
+      <h2 id="core-read">Core Read</h2>
+      <div class="summary">
+        <div class="summary-card">
+          <strong>The job is Asset Uptime.</strong>
+          <p>At Hertz LAX, the local version of asset uptime is revenue-readiness: returning the right vehicles to rentable inventory while demand is moving.</p>
+        </div>
+        <div class="summary-card">
+          <strong>The raw maintenance objects mostly exist.</strong>
+          <p>Samsara already claims work orders, PMs, faults, inventory, POs, vendors, invoices, warranty, and asset history. Competitors also cover these objects.</p>
+        </div>
+        <div class="summary-card">
+          <strong>The gap is reconciliation.</strong>
+          <p>The product opportunity is joining maintenance truth, rental-operations truth, and local shop truth into a plan the supervisor can inspect and commit.</p>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="three-truths">
+      <h2 id="three-truths">The Three Truths</h2>
+      <div class="three-col">
+        <article class="section-card blue">
+          <h3>Maintenance Truth</h3>
+          <p>What is broken, due, open, diagnosed, blocked, or complete.</p>
+          <ul>
+            <li>Work orders and PMs</li>
+            <li>Faults, odometer, usage</li>
+            <li>Parts, warranty, recalls</li>
+            <li>Vendor work and invoices</li>
+          </ul>
+        </article>
+        <article class="section-card orange">
+          <h3>Rental-Operations Truth</h3>
+          <p>Which cars are needed, available, rentable, rentable soon, or unavailable.</p>
+          <ul>
+            <li>Reservations by class</li>
+            <li>Ready-line inventory</li>
+            <li>Clean, fuel, charge state</li>
+            <li>Return and damage holds</li>
+          </ul>
+        </article>
+        <article class="section-card gray">
+          <h3>Local Shop Truth</h3>
+          <p>What the supervisor and technicians know that systems often miss.</p>
+          <ul>
+            <li>Who is actually on shift</li>
+            <li>Bay and yard reality</li>
+            <li>Tech skill and speed</li>
+            <li>What can safely wait</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="flow-diagram">
+      <h2 id="flow-diagram">Visible System and Data Flow</h2>
+      <div class="map-shell" role="img" aria-label="System and data flow diagram from input systems to planner, supervisor review, technician cards, operations view, closeout, and system of record updates.">
+        <div class="flow-map">
+          <div class="column">
+            <div class="column-title">Input truths</div>
+            <div class="node orange">
+              <h3>Rental operations</h3>
+              <p>Reservations, vehicle class demand, pickup pressure, ready-line count, clean/fuel/charge state.</p>
+            </div>
+            <div class="node orange">
+              <h3>Return and inspection</h3>
+              <p>Customer complaints, return-agent notes, automated damage scan, tire/body/undercarriage findings.</p>
+            </div>
+            <div class="node blue">
+              <h3>Samsara and CMMS</h3>
+              <p>Assets, work orders, PMs, faults, diagnostics, odometer, history, parts, POs, warranty.</p>
+            </div>
+            <div class="node gray">
+              <h3>Local shop context</h3>
+              <p>Technician roster, bay state, vehicle physical location, supervisor judgment, informal blockers.</p>
+            </div>
+          </div>
+
+          <div class="arrow-col"><div class="arrow"></div></div>
+
+          <div class="column">
+            <div class="column-title">Planning layer</div>
+            <div class="node green">
+              <h3>Asset Uptime planner</h3>
+              <p>Reconciles the three truths. Separates ready, blocked, vendor, defer, and needs-review work.</p>
+              <ul>
+                <li>Scores return-to-revenue impact</li>
+                <li>Explains why work matters today</li>
+                <li>Flags missing data and confidence</li>
+              </ul>
+            </div>
+            <div class="node purple">
+              <h3>Human review boundary</h3>
+              <p>The agent prepares. The supervisor commits. This keeps trust, accountability, and local judgment in the loop.</p>
+            </div>
+          </div>
+
+          <div class="arrow-col"><div class="arrow"></div></div>
+
+          <div class="column">
+            <div class="column-title">Committed outputs</div>
+            <div class="node green">
+              <h3>Supervisor plan</h3>
+              <p>First work block, priorities, blocked reasons, vendor path, deferrals, and open decisions.</p>
+            </div>
+            <div class="node green">
+              <h3>Technician work cards</h3>
+              <p>Asset, job, source signal, why today, parts/tools, done criteria, and blocker action.</p>
+            </div>
+            <div class="node green">
+              <h3>Rental ops readiness view</h3>
+              <p>Ready now, likely ready by ETA, blocked, unavailable today, grouped by vehicle class.</p>
+            </div>
+          </div>
+
+          <div class="arrow-col"><div class="arrow"></div></div>
+
+          <div class="column">
+            <div class="column-title">Execution loop</div>
+            <div class="node red">
+              <h3>Plan-change events</h3>
+              <p>Missing part, extra finding, vendor delay, new damage, new return, recall hold, or demand spike.</p>
+            </div>
+            <div class="node blue">
+              <h3>Closeout and records</h3>
+              <p>Notes, photos, parts used, labor, fault cleared, PM reset, asset status, history, cost, carryover.</p>
+            </div>
+            <div class="node orange">
+              <h3>Ready-line update</h3>
+              <p>Maintenance status flows back to rental operations so available means actually rentable.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="legend">
+        <span class="legend-item"><span class="swatch blue"></span>Likely Samsara or maintenance-system data</span>
+        <span class="legend-item"><span class="swatch orange"></span>External, rental-ops, or integration-dependent data</span>
+        <span class="legend-item"><span class="swatch gray"></span>Human or local shop context</span>
+        <span class="legend-item"><span class="swatch green"></span>Proposed planning layer and outputs</span>
+        <span class="legend-item"><span class="swatch red"></span>Plan-change events</span>
+      </div>
+    </section>
+
+    <section aria-labelledby="predictive-loop">
+      <h2 id="predictive-loop">Predictive Loop: Where It Breaks Now</h2>
+      <p>A predictive maintenance product is not a line from input data to recommendation. It is a loop: the system senses, predicts, recommends, gets human commitment, drives execution, observes the result, and learns whether asset uptime improved.</p>
+
+      <div class="loop-grid" aria-label="Predictive loop steps">
+        <article class="loop-step">
+          <h3>1. Sense</h3>
+          <p>Collect telematics, PMs, WOs, returns, inspections, parts, vendors, tech roster, ready-line state, and demand.</p>
+        </article>
+        <article class="loop-step">
+          <h3>2. Predict</h3>
+          <p>Estimate risk, priority, readiness, downtime, return-to-service time, and asset-uptime impact.</p>
+        </article>
+        <article class="loop-step">
+          <h3>3. Recommend</h3>
+          <p>Draft the plan, blocked reasons, assignments, deferrals, and ops-facing availability forecast.</p>
+        </article>
+        <article class="loop-step">
+          <h3>4. Commit</h3>
+          <p>Supervisor reviews, edits, approves, overrides, and owns the final plan.</p>
+        </article>
+        <article class="loop-step">
+          <h3>5. Execute</h3>
+          <p>Technicians, parts owners, vendors, and rental operations act on the committed plan.</p>
+        </article>
+        <article class="loop-step">
+          <h3>6. Observe</h3>
+          <p>Capture blockers, time, parts, new findings, status, and whether the asset returned to service.</p>
+        </article>
+        <article class="loop-step">
+          <h3>7. Learn</h3>
+          <p>Update future estimates, confidence, routing rules, blocked reasons, and recommendations.</p>
+        </article>
+      </div>
+
+      <div class="table-wrap" style="margin-top:16px">
+        <table class="break-table">
+          <thead>
+            <tr>
+              <th>Breakpoint</th>
+              <th>What Breaks</th>
+              <th>Why It Matters</th>
+              <th>Product Implication</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Identity join</td>
+              <td>The same vehicle, work order, return record, vendor estimate, and ready-line state do not resolve cleanly to one asset state.</td>
+              <td>The planner cannot tell whether an asset is ready, blocked, duplicated, or stale.</td>
+              <td>Show asset-state reconciliation and conflict flags.</td>
+            </tr>
+            <tr>
+              <td>Signal quality</td>
+              <td>Faults, complaints, inspection notes, and scans can be noisy, vague, duplicated, or low confidence.</td>
+              <td>Prediction can create false urgency or miss the real issue.</td>
+              <td>Show source, confidence, severity, evidence, and needs-review states.</td>
+            </tr>
+            <tr>
+              <td>Missing local context</td>
+              <td>Tech skill, bay state, physical location, informal parts reservation, and can-wait judgment stay in heads or on whiteboards.</td>
+              <td>The model can recommend work that cannot actually start.</td>
+              <td>Capture only the minimum local context needed for readiness.</td>
+            </tr>
+            <tr>
+              <td>Output actionability</td>
+              <td>A ranked list says what matters but not who should do it, what is needed, why today, or what done means.</td>
+              <td>The supervisor still has to translate prediction into work.</td>
+              <td>Output a committed plan and technician-ready work cards, not just risk scores.</td>
+            </tr>
+            <tr>
+              <td>Human trust</td>
+              <td>The supervisor cannot inspect reasoning, tradeoffs, or uncertainty.</td>
+              <td>They ignore the recommendation or recreate the plan manually.</td>
+              <td>Require review and commit. Make overrides easy and capture why.</td>
+            </tr>
+            <tr>
+              <td>Execution drift</td>
+              <td>A part is missing, a tech finds extra work, a vendor delays, or operations changes demand.</td>
+              <td>The original plan becomes stale quickly.</td>
+              <td>Treat the plan as a living loop with blocker updates and plan-impact alerts.</td>
+            </tr>
+            <tr>
+              <td>Closeout quality</td>
+              <td>Work closes with sparse notes, missing parts, missing time, or unclear asset status.</td>
+              <td>The system cannot learn which recommendations were right.</td>
+              <td>Capture outcome labels: done, blocked, deferred, returned to service, not returned, reason.</td>
+            </tr>
+            <tr>
+              <td>Ops feedback</td>
+              <td>Maintenance marks work done, but rental operations still sees the asset as unavailable, unclean, uncharged, or unstaged.</td>
+              <td>Asset uptime is not achieved until the asset is usable.</td>
+              <td>The loop must end in an availability state, not just work-order completion.</td>
+            </tr>
+            <tr>
+              <td>Learning target</td>
+              <td>The model optimizes for closing work orders instead of improving asset uptime.</td>
+              <td>The product can look productive while missing the business outcome.</td>
+              <td>Train and measure against ready, available, downtime avoided, and forecast accuracy.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="systems-table">
+      <h2 id="systems-table">Existing Tools and Data Objects</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>System or Tool</th>
+              <th>What It Likely Owns</th>
+              <th>Gap for the Planner</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Samsara telematics / IoT</strong></td>
+              <td>GPS, odometer, diagnostics, faults, usage, possibly EV state.</td>
+              <td>Faults and diagnostics do not equal a daily shop plan.</td>
+            </tr>
+            <tr>
+              <td><strong>Samsara Connected Maintenance / CMMS</strong></td>
+              <td>Work orders, PMs, asset history, costs, inventory, vendors, invoices, warranty, POs.</td>
+              <td>Generic work-order status does not say whether work is ready, valuable today, or aligned to rental demand.</td>
+            </tr>
+            <tr>
+              <td><strong>Hertz rental operations</strong></td>
+              <td>Reservations, vehicle class demand, customer wait pressure, fleet availability, swaps.</td>
+              <td>Critical for prioritization, but likely outside a CMMS. Needs integration or mocked input in prototype.</td>
+            </tr>
+            <tr>
+              <td><strong>Ready-line / lot operations</strong></td>
+              <td>Clean, fueled, charged, staged, physically available, or held.</td>
+              <td>On site is not the same as rentable. This data may be split across tools and local knowledge.</td>
+            </tr>
+            <tr>
+              <td><strong>Return inspection and damage capture</strong></td>
+              <td>Customer issue, condition, mileage, photos, automated scan findings.</td>
+              <td>Signal quality varies. Findings need normalization before becoming work.</td>
+            </tr>
+            <tr>
+              <td><strong>Parts / inventory / procurement</strong></td>
+              <td>On-hand quantity, location, consumption, POs, low-stock and out-of-stock status.</td>
+              <td>The planner needs confidence and reservation state, not just theoretical quantity.</td>
+            </tr>
+            <tr>
+              <td><strong>Vendor / dealer / approved repair path</strong></td>
+              <td>Approved repair location, voucher, estimate, ETA, invoice, authorization changes.</td>
+              <td>Real-time ETA and estimate status may be weak unless integrated. Manual status can work in v1.</td>
+            </tr>
+            <tr>
+              <td><strong>Supervisor whiteboard and memory</strong></td>
+              <td>Priority, informal constraints, team skill, bay reality, can-wait judgment.</td>
+              <td>This is the hardest source. V1 should capture only the minimum local context needed to make a plan.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="day-map">
+      <h2 id="day-map">Day-In-Life Mapped to Systems</h2>
+      <div class="timeline">
+        <article class="timeline-block">
+          <div class="time">4:45 to 5:30 AM</div>
+          <div>
+            <h3>Pre-shift scan</h3>
+            <p><strong>Supervisor question:</strong> What changed overnight, and what can we return to revenue today?</p>
+            <p><strong>Systems:</strong> Samsara/CMMS, rental operations, ready-line, vendor updates, local whiteboard.</p>
+            <p><strong>Gap:</strong> Inputs describe the same vehicles from different angles, but no system naturally says which vehicles are most worth moving today.</p>
+            <span class="feasibility">Prototype feasibility: high</span>
+          </div>
+        </article>
+
+        <article class="timeline-block">
+          <div class="time">5:30 to 6:20 AM</div>
+          <div>
+            <h3>Plan and huddle</h3>
+            <p><strong>Supervisor question:</strong> What work should each tech start, and what should operations believe about availability?</p>
+            <p><strong>Systems:</strong> Work-order system, technician app or paper, inventory, supervisor judgment.</p>
+            <p><strong>Gap:</strong> A priority queue is not enough. The plan needs readiness, sequence, and a reason.</p>
+            <span class="feasibility">Prototype feasibility: high</span>
+          </div>
+        </article>
+
+        <article class="timeline-block">
+          <div class="time">6:20 to 10:00 AM</div>
+          <div>
+            <h3>First execution wave</h3>
+            <p><strong>Supervisor question:</strong> Is the plan still true now that work has started?</p>
+            <p><strong>Systems:</strong> Technician updates, CMMS status, return/check-in tools, vendor communication.</p>
+            <p><strong>Gap:</strong> Missing parts, new findings, and vendor delays can stale the plan fast.</p>
+            <span class="feasibility">Prototype feasibility: medium-high</span>
+          </div>
+        </article>
+
+        <article class="timeline-block">
+          <div class="time">10:00 AM to 1:00 PM</div>
+          <div>
+            <h3>Revenue-readiness checkpoint</h3>
+            <p><strong>Supervisor question:</strong> What can still make it back to the ready line today?</p>
+            <p><strong>Systems:</strong> CMMS, technician status, ready-line inventory, vendor ETAs, parts/PO status.</p>
+            <p><strong>Gap:</strong> Maintenance tools show status, but the supervisor needs a forecast by revenue impact.</p>
+            <span class="feasibility">Prototype feasibility: medium</span>
+          </div>
+        </article>
+
+        <article class="timeline-block">
+          <div class="time">1:00 to 4:00 PM</div>
+          <div>
+            <h3>Afternoon pressure</h3>
+            <p><strong>Supervisor question:</strong> What changes because demand, returns, or diagnosis changed?</p>
+            <p><strong>Systems:</strong> Rental ops, return inspection, CMMS, vendors, whiteboard or huddle.</p>
+            <p><strong>Gap:</strong> Replanning needs visible tradeoffs, not hidden automatic rescheduling.</p>
+            <span class="feasibility">Prototype feasibility: medium</span>
+          </div>
+        </article>
+
+        <article class="timeline-block">
+          <div class="time">4:00 to 5:30 PM</div>
+          <div>
+            <h3>Shift handoff</h3>
+            <p><strong>Supervisor question:</strong> What must the next shift know so the same work does not get rediscovered tomorrow?</p>
+            <p><strong>Systems:</strong> Work orders, technician notes, ready-line status, whiteboard, vendor/parts updates.</p>
+            <p><strong>Gap:</strong> If blockers and next actions are not structured, tomorrow starts with archaeology.</p>
+            <span class="feasibility">Prototype feasibility: high</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="gaps">
+      <h2 id="gaps">Gap and Feasibility Register</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Gap</th>
+              <th>Why It Matters at Hertz LAX</th>
+              <th>Feasibility</th>
+              <th>Practical V1 Approach</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Rentable status, not just asset status</strong></td>
+              <td>A car can be on site but not rentable because it is dirty, unfueled, uncharged, damaged, held, or waiting on final check.</td>
+              <td><span class="feasibility">Medium-high</span></td>
+              <td>Add return-to-revenue state: ready now, ready after turn, ready after repair, blocked, unavailable today.</td>
+            </tr>
+            <tr>
+              <td><strong>Vehicle class demand</strong></td>
+              <td>The same repair has different priority if SUVs, EVs, or vans are short today.</td>
+              <td><span class="feasibility">Medium</span></td>
+              <td>Mock or integrate reservation demand by class. Show why class pressure changes priority.</td>
+            </tr>
+            <tr>
+              <td><strong>Return inspection normalization</strong></td>
+              <td>Customer comments, return-agent notes, and automated scans are noisy but operationally important.</td>
+              <td><span class="feasibility">Medium</span></td>
+              <td>Convert signals into reviewable issues with source, confidence, photo/note, and needs-review state.</td>
+            </tr>
+            <tr>
+              <td><strong>Technician availability and skill</strong></td>
+              <td>The best plan is useless if the right technician is not on shift.</td>
+              <td><span class="feasibility">High</span></td>
+              <td>Lightweight roster: on shift, skill tags, current load, unavailable. Avoid full HR scheduling.</td>
+            </tr>
+            <tr>
+              <td><strong>Bay and yard reality</strong></td>
+              <td>Work cannot start if the car is not accessible, the bay is full, or it is still in wash/charge/vendor.</td>
+              <td><span class="feasibility">Medium-high</span></td>
+              <td>Simple local state: on lot, in bay, at wash, charging, at vendor, blocked location unknown.</td>
+            </tr>
+            <tr>
+              <td><strong>Vendor ETA and approvals</strong></td>
+              <td>Vendor/dealer work can dominate availability, especially collision, warranty, recall, and specialty work.</td>
+              <td><span class="feasibility">Medium-low</span></td>
+              <td>Start with manual ETA/status, uploaded estimates, vouchers, and invoices. Add vendor APIs later.</td>
+            </tr>
+            <tr>
+              <td><strong>AI trust and alert noise</strong></td>
+              <td>Fault codes and inspections can create false urgency.</td>
+              <td><span class="feasibility">Medium</span></td>
+              <td>Show source, severity, confidence, evidence, and why today. Require supervisor commit.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="boundary">
+      <h2 id="boundary">Product Boundary Implied by the Mapping</h2>
+      <p>V1 should be a supervisor-owned Asset Uptime planner. For Hertz LAX, that means a revenue-readiness loop: prepare the plan, separate ready work from blocked work, generate technician-ready assignments, observe outcomes, and update availability.</p>
+      <div class="two-col">
+        <article class="section-card green">
+          <h3>Samsara can plausibly own</h3>
+          <ul>
+            <li>Reconciling maintenance signals into a daily plan</li>
+            <li>Identifying ready versus blocked work</li>
+            <li>Drafting technician work cards</li>
+            <li>Explaining why an item is prioritized</li>
+            <li>Producing an ops-facing availability summary</li>
+            <li>Capturing carryover and blockers</li>
+          </ul>
+        </article>
+        <article class="section-card red">
+          <h3>Later or lower-feasibility</h3>
+          <ul>
+            <li>Deep vendor/dealer real-time integration</li>
+            <li>Automated parts ordering</li>
+            <li>Autonomous repair assignment without supervisor review</li>
+            <li>Repair-versus-retire optimization</li>
+            <li>Full replacement of rental operations or ERP systems</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="check-in">
+      <h2 id="check-in">Check-In Before Metrics</h2>
+      <div class="questions">
+        <div class="question-card"><p>1. Framing update: Asset Uptime is the general product frame. Revenue-readiness is the Hertz LAX expression.</p></div>
+        <div class="question-card"><p>2. Open: Should the first workflow focus on pre-shift planning only, or include midday replanning as a visible loop?</p></div>
+        <div class="question-card"><p>3. Open: Should the prototype include the rental-ops readiness view, or only show the supervisor plan and technician cards?</p></div>
+        <div class="question-card"><p>4. Open: Are we comfortable assuming reservation demand and ready-line data are available as integrations, with mocked data in the prototype?</p></div>
+        <div class="question-card"><p>5. Open: Which local shop context should v1 capture manually: technician roster, bay state, vehicle physical location, or supervisor override notes?</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Source artifact: research/11-hertz-lax-systems-and-data-flow.md. This page is intentionally built for browser annotation and stops before metric selection.
+  </footer>
+</body>
+</html>

@@ -4,6 +4,10 @@ Do not dump raw private emails here by default. Capture only the minimal excerpt
 
 Source inventory starts in `docs/00-constraints-and-sources.md`.
 
+## Source Captures
+
+- `sources/samsara-connected-maintenance-page-capture.md` - structured capture of the current Samsara Connected Maintenance product page, accessed 2026-06-13.
+
 When adding research, include:
 
 - source title
