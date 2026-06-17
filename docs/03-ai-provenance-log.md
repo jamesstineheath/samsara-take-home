@@ -73,6 +73,7 @@ Record all substantive AI contributions here. James should be able to say what w
 | 2026-06-16 | James / Codex | Parent Work Orders tab | JAMES / AI-INFERENCE / code | Needs review | Implemented the normal parent Work Orders tab as the prototype landing surface, with DB-backed WO rows, subtle Prepared plan badges, and navigation into/back from the Prepared Asset Plan. |
 | 2026-06-16 | James / Codex | Compact assumption checks | JAMES / AI-INFERENCE / code | Needs review | Tightened the Prepared Asset Plan detail view after James said the Assumptions to Verify block used too much vertical space and the Open source button was too large. |
 | 2026-06-17 | James / Codex | Conditional assumption sources | JAMES / AI-INFERENCE / code | Needs review | Updated the Prepared Asset Plan detail view after James pointed out that local floor-truth checks, such as occupied bays or lot access, should not show fake source buttons when the data likely does not live in Samsara. |
+| 2026-06-17 | Codex | Prepared Asset Brief backend architecture | AI-DRAFT / AI-INFERENCE | Needs review | Created `prototype/03-prepared-asset-brief-backend.md` to document backend responsibilities, sourceability, agentic architecture, APIs, data model, writeback safety, events, metrics, and V1 boundaries for James review. |
 
 ## Tags
 
