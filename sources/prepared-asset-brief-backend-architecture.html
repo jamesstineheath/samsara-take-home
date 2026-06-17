@@ -1,0 +1,990 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prepared Asset Brief Backend Architecture</title>
+  <style>
+    :root {
+      --ink: #102033;
+      --muted: #5b6a7a;
+      --line: #d6dee7;
+      --paper: #ffffff;
+      --soft: #f4f7fa;
+      --navy: #062f45;
+      --blue: #e4f0ff;
+      --blue-strong: #2368d9;
+      --green: #e3f6eb;
+      --green-strong: #158554;
+      --amber: #fff1d8;
+      --amber-strong: #b76a00;
+      --red: #ffe8e5;
+      --red-strong: #bc3f35;
+      --violet: #efeaff;
+      --violet-strong: #6952c8;
+      --gray: #eef2f6;
+      --shadow: 0 12px 32px rgba(15, 32, 48, 0.08);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #edf3f7;
+      line-height: 1.42;
+    }
+
+    header {
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+      padding: 34px clamp(22px, 5vw, 68px) 26px;
+    }
+
+    main {
+      padding: 26px clamp(18px, 4vw, 56px) 64px;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      max-width: 1080px;
+      font-size: clamp(34px, 5vw, 60px);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      font-size: clamp(24px, 3vw, 36px);
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      font-size: 18px;
+      line-height: 1.22;
+      letter-spacing: 0;
+    }
+
+    .eyebrow {
+      color: var(--blue-strong);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .lede {
+      margin-top: 14px;
+      max-width: 940px;
+      color: var(--muted);
+      font-size: clamp(18px, 2vw, 23px);
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 5px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .section {
+      margin-top: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: flex-start;
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-head p {
+      max-width: 680px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .section-label {
+      color: var(--blue-strong);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      margin-bottom: 6px;
+    }
+
+    .panel-body {
+      padding: 22px 24px 24px;
+    }
+
+    .principle-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    .principle-card,
+    .loop-card,
+    .metric-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      background: var(--soft);
+    }
+
+    .principle-card {
+      min-height: 132px;
+    }
+
+    .principle-card strong {
+      display: block;
+      font-size: 21px;
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .principle-card p,
+    .loop-card p,
+    .metric-card p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .map-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 1.1fr 1.05fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .map-column {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .stack-title {
+      display: flex;
+      align-items: center;
+      min-height: 38px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .node {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      padding: 14px;
+    }
+
+    .node h3 {
+      margin-bottom: 8px;
+    }
+
+    .node p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .node.source {
+      border-left: 5px solid var(--blue-strong);
+    }
+
+    .node.service {
+      border-left: 5px solid var(--violet-strong);
+      background: #fbfaff;
+    }
+
+    .node.human {
+      border-left: 5px solid var(--green-strong);
+      background: #f7fcf9;
+    }
+
+    .node.writeback {
+      border-left: 5px solid var(--amber-strong);
+      background: #fffaf0;
+    }
+
+    .flow-spine,
+    .sequence {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .flow-spine {
+      grid-template-columns: repeat(5, minmax(120px, 1fr));
+    }
+
+    .sequence {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+
+    .flow-step {
+      position: relative;
+      min-height: 116px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px 14px 12px;
+      background: var(--paper);
+    }
+
+    .flow-step:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: -13px;
+      width: 12px;
+      height: 2px;
+      background: var(--line);
+    }
+
+    .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      margin-bottom: 8px;
+      border-radius: 999px;
+      background: var(--blue);
+      color: var(--blue-strong);
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    .flow-step h3,
+    .loop-card h3 {
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+
+    .flow-step p {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .loop-note {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .sourceability {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .source-card,
+    .system-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: var(--soft);
+    }
+
+    .source-card {
+      min-height: 178px;
+    }
+
+    .source-card h3,
+    .system-card h3 {
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .source-card p,
+    .system-card p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+      margin-bottom: 10px;
+    }
+
+    .badge.blue {
+      background: var(--blue);
+      color: var(--blue-strong);
+    }
+
+    .badge.green {
+      background: var(--green);
+      color: var(--green-strong);
+    }
+
+    .badge.amber {
+      background: var(--amber);
+      color: var(--amber-strong);
+    }
+
+    .badge.red {
+      background: var(--red);
+      color: var(--red-strong);
+    }
+
+    .badge.violet {
+      background: var(--violet);
+      color: var(--violet-strong);
+    }
+
+    .system-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .system-card {
+      background: var(--paper);
+    }
+
+    .system-card.core {
+      border-color: #adc0d4;
+      background: #f7fbff;
+    }
+
+    .matrix {
+      display: grid;
+      grid-template-columns: 0.8fr 1.15fr 1.15fr;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .matrix div {
+      min-height: 58px;
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    .matrix div:nth-child(3n) {
+      border-right: 0;
+    }
+
+    .matrix div:nth-last-child(-n + 3) {
+      border-bottom: 0;
+    }
+
+    .matrix .head {
+      background: var(--navy);
+      color: #fff;
+      font-weight: 800;
+      min-height: 44px;
+    }
+
+    .matrix strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .matrix span {
+      color: var(--muted);
+    }
+
+    .contract-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .api-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: table;
+      font-size: 14px;
+    }
+
+    .api-table th,
+    .api-table td {
+      border-bottom: 1px solid var(--line);
+      padding: 11px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .api-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .api-table th {
+      background: var(--navy);
+      color: #fff;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    code {
+      border-radius: 5px;
+      background: var(--gray);
+      padding: 2px 5px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.92em;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .metric-card strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .footer-note {
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 1100px) {
+      .principle-grid,
+      .map-grid,
+      .contract-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sourceability,
+      .system-grid,
+      .metrics-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .flow-spine,
+      .sequence {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .flow-step:not(:last-child)::after {
+        display: none;
+      }
+    }
+
+    @media (max-width: 700px) {
+      header {
+        padding: 26px 18px 20px;
+      }
+
+      main {
+        padding: 18px 12px 48px;
+      }
+
+      .section-head {
+        flex-direction: column;
+        padding: 18px;
+      }
+
+      .panel-body {
+        padding: 18px;
+      }
+
+      .sourceability,
+      .system-grid,
+      .metrics-grid,
+      .flow-spine,
+      .loop-note,
+      .sequence {
+        grid-template-columns: 1fr;
+      }
+
+      .matrix {
+        grid-template-columns: 1fr;
+      }
+
+      .matrix div,
+      .matrix div:nth-child(3n),
+      .matrix div:nth-last-child(-n + 3) {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .matrix div:last-child {
+        border-bottom: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="eyebrow">Connected Maintenance / Backend Architecture</div>
+    <h1>Prepared Asset Brief: system design and agentic loop</h1>
+    <p class="lede">A backend architecture for turning Work Orders, faults, DVIRs, PM schedules, parts, warranty, vendor, demand, and local shop context into ranked asset recommendations that a supervisor can verify and commit.</p>
+    <div class="tag-row">
+      <span class="tag">Work Orders stay system of record</span>
+      <span class="tag">Asset-first recommendations</span>
+      <span class="tag">Human approval before writeback</span>
+      <span class="tag">No fake source buttons</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="section-label">Architecture intent</div>
+          <h2>Three backend jobs</h2>
+        </div>
+        <p>The product should feel like ordinary Connected Maintenance. The intelligence sits behind the Work Orders tab and prepares a short, ranked review flow.</p>
+      </div>
+      <div class="panel-body">
+        <div class="principle-grid">
+          <article class="principle-card">
+            <strong>Keep Work Orders as the source of execution</strong>
+            <p>The parent tab remains Work Orders. The brief adds prepared recommendations and badges, but it does not become a separate planning system.</p>
+          </article>
+          <article class="principle-card">
+            <strong>Prepare asset-level decisions before the shift</strong>
+            <p>The backend ranks vehicles by uptime impact, feasibility, risk, and horizon: this shift, next 24-48 hours, or weekend surge.</p>
+          </article>
+          <article class="principle-card">
+            <strong>Close the loop with supervisor judgment</strong>
+            <p>Confirm, reject, defer, and commit actions become structured feedback. That feedback improves future recommendations.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="section-label">End-to-end map</div>
+          <h2>From source systems to committed WO updates</h2>
+        </div>
+        <p>The Prepared Asset Brief sits between operational data and the supervisor's normal Work Orders workflow. It prepares decisions; the supervisor commits them.</p>
+      </div>
+      <div class="panel-body">
+        <div class="map-grid">
+          <div class="map-column">
+            <div class="stack-title">Inputs</div>
+            <article class="node source">
+              <h3>Maintenance signals</h3>
+              <p>Work Orders, faults, DVIRs, PM schedules, asset history.</p>
+            </article>
+            <article class="node source">
+              <h3>Readiness signals</h3>
+              <p>Inventory, part reservations, purchase orders, warranty, vendor jobs.</p>
+            </article>
+            <article class="node source">
+              <h3>Operations context</h3>
+              <p>Rental class demand, ready-line targets, technician schedule, handoff notes, local checks.</p>
+            </article>
+          </div>
+
+          <div class="map-column">
+            <div class="stack-title">Prepared Asset Brief backend</div>
+            <article class="node service">
+              <h3>Ingestion and normalization</h3>
+              <p>Convert fragmented records into asset, WO, source event, parts, vendor, and demand objects.</p>
+            </article>
+            <article class="node service">
+              <h3>Asset state resolver</h3>
+              <p>Build the current picture for each vehicle: open work, location, status, constraints, unknowns, and rental impact.</p>
+            </article>
+            <article class="node service">
+              <h3>Recommendation planner</h3>
+              <p>Rank assets, draft WO updates, classify assumptions, and decide what must be checked before commit.</p>
+            </article>
+          </div>
+
+          <div class="map-column">
+            <div class="stack-title">Supervisor workflow</div>
+            <article class="node human">
+              <h3>Work Orders tab</h3>
+              <p>Normal WO table with subtle Prepared plan badges and a Review plan affordance.</p>
+            </article>
+            <article class="node human">
+              <h3>Prepared Asset Plan</h3>
+              <p>Ranked recommendations with impacted WOs, assumptions to verify, and prepared updates.</p>
+            </article>
+            <article class="node writeback">
+              <h3>Commit and learn</h3>
+              <p>Approved updates write back to WOs. Rejects, deferrals, and outcomes feed the next brief.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="section-label">Agentic architecture</div>
+          <h2>Use agents for synthesis, not unchecked mutation</h2>
+        </div>
+        <p>The architecture can be implemented as one service with modular steps. The key is the loop: collect signals, resolve asset state, prepare recommendations, verify assumptions, commit only after supervisor approval.</p>
+      </div>
+      <div class="panel-body">
+        <div class="flow-spine">
+          <article class="flow-step">
+            <span class="step-num">1</span>
+            <h3>Collect signals</h3>
+            <p>Pull WOs, faults, DVIRs, PMs, parts, demand, vendors, and shift context.</p>
+          </article>
+          <article class="flow-step">
+            <span class="step-num">2</span>
+            <h3>Resolve asset state</h3>
+            <p>Join records by vehicle and mark knowns, unknowns, blockers, and stale data.</p>
+          </article>
+          <article class="flow-step">
+            <span class="step-num">3</span>
+            <h3>Plan recommendations</h3>
+            <p>Rank asset decisions and draft WO updates with impact, tradeoff, and guardrails.</p>
+          </article>
+          <article class="flow-step">
+            <span class="step-num">4</span>
+            <h3>Verify assumptions</h3>
+            <p>Route local floor truth to Confirm / Reject. Show source links only when they exist.</p>
+          </article>
+          <article class="flow-step">
+            <span class="step-num">5</span>
+            <h3>Write back safely</h3>
+            <p>Apply approved WO changes with idempotency, audit trail, and current-version checks.</p>
+          </article>
+        </div>
+
+        <div class="loop-note">
+          <article class="loop-card">
+            <h3>Deterministic rules</h3>
+            <p>Safety flags, sourceability, inventory counts, stale data, permissions, idempotency, and writeback checks should be rule-based and auditable.</p>
+          </article>
+          <article class="loop-card">
+            <h3>Agentic synthesis</h3>
+            <p>Agents are useful for summarizing tradeoffs, reconciling messy notes, drafting WO amendments, and explaining why an asset is worth supervisor attention now.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="section-label">Sourceability contract</div>
+          <h2>Every assumption declares what kind of evidence exists</h2>
+        </div>
+        <p>This is the backend rule that keeps the UI honest. A check can be important even when it has no source record.</p>
+      </div>
+      <div class="panel-body">
+        <div class="sourceability">
+          <article class="source-card">
+            <span class="badge blue">System record</span>
+            <h3>Known source exists</h3>
+            <p>Example: brake pads staged in inventory or a tech is on the schedule.</p>
+            <p><strong>UI:</strong> Source + Confirm / Reject.</p>
+          </article>
+          <article class="source-card">
+            <span class="badge amber">Partial record</span>
+            <h3>Record may be stale</h3>
+            <p>Example: vendor ETA exists but has not been updated today.</p>
+            <p><strong>UI:</strong> Source with stale warning.</p>
+          </article>
+          <article class="source-card">
+            <span class="badge green">Local truth</span>
+            <h3>Floor check required</h3>
+            <p>Example: Bay 04 is physically open or a vehicle is accessible.</p>
+            <p><strong>UI:</strong> Confirm / Reject only.</p>
+          </article>
+          <article class="source-card">
+            <span class="badge violet">Partner record</span>
+            <h3>Outside Samsara</h3>
+            <p>Example: dealer, tire vendor, glass vendor, or parts supplier status.</p>
+            <p><strong>UI:</strong> Partner link if integrated.</p>
+          </article>
+          <article class="source-card">
+            <span class="badge red">Unavailable</span>
+            <h3>No reliable record</h3>
+            <p>Example: supervisor judgment, informal floor note, or untracked bay status.</p>
+            <p><strong>UI:</strong> Confirm / Reject only.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="section-label">Data model</div>
+          <h2>The brief joins source data around the asset</h2>
+        </div>
+        <p>Vehicles are the top-level decision unit. Work Orders are the execution layer underneath the vehicle.</p>
+      </div>
+      <div class="panel-body">
+        <div class="system-grid">
+          <article class="system-card core">
+            <h3>Asset</h3>
+            <p>Vehicle identity, class, location, status, availability, and history.</p>
+          </article>
+          <article class="system-card core">
+            <h3>Work Order</h3>
+            <p>Current execution record: status, source, severity, estimate, assignment, parts.</p>
+          </article>
+          <article class="system-card">
+            <h3>Source Event</h3>
+            <p>Fault, DVIR, PM schedule, inspection, note, invoice, vendor update.</p>
+          </article>
+          <article class="system-card">
+            <h3>Inventory State</h3>
+            <p>On-hand quantity, reservations, staged parts, open PO, expected arrival.</p>
+          </article>
+          <article class="system-card">
+            <h3>Demand Window</h3>
+            <p>Class demand, target ready count, current ready count, next peak.</p>
+          </article>
+          <article class="system-card">
+            <h3>Prepared Brief</h3>
+            <p>One generated brief for site, shift, horizon, and supervisor workflow.</p>
+          </article>
+          <article class="system-card core">
+            <h3>Recommendation</h3>
+            <p>Ranked asset decision with impact, action, affected WOs, checks, and state.</p>
+          </article>
+          <article class="system-card">
+            <h3>Outcome Event</h3>
+            <p>Commit, rejection, defer, vehicle ready, WO reopened, or blocker found.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="section-label">Backend split</div>
+          <h2>What the model decides versus what the system enforces</h2>
+        </div>
+        <p>The easiest way to keep this credible is to give the agent useful synthesis work and keep safety-critical behavior in deterministic services.</p>
+      </div>
+      <div class="panel-body">
+        <div class="matrix">
+          <div class="head">Layer</div>
+          <div class="head">Deterministic service</div>
+          <div class="head">Agentic synthesis</div>
+
+          <div><strong>Sourceability</strong><span>Evidence contract</span></div>
+          <div>Determine whether a real source record exists and whether it is stale.</div>
+          <div>Explain the local check in plain language.</div>
+
+          <div><strong>Feasibility</strong><span>Can work start?</span></div>
+          <div>Check part count, PO status, tech roster, WO status, and required approvals.</div>
+          <div>Summarize tradeoffs when multiple weak signals point in the same direction.</div>
+
+          <div><strong>Ranking</strong><span>Why this asset now?</span></div>
+          <div>Apply thresholds for demand pressure, safety, warranty, stale ETA, and class shortage.</div>
+          <div>Draft the supervisor-facing rationale and next action.</div>
+
+          <div><strong>Writeback</strong><span>Mutation control</span></div>
+          <div>Check permission, idempotency, current WO version, and audit trail.</div>
+          <div>Draft the proposed WO update text for supervisor review.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="section-label">API and events</div>
+          <h2>Minimum backend surface</h2>
+        </div>
+        <p>The prototype already has the basic shape. Production would add generation, assumption-level review, source contracts, and safe writeback.</p>
+      </div>
+      <div class="panel-body">
+        <div class="contract-grid">
+          <table class="api-table">
+            <thead>
+              <tr>
+                <th>Endpoint</th>
+                <th>Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>GET /api/work-orders</code></td>
+                <td>Parent WO table, filters, summary, Prepared plan badges.</td>
+              </tr>
+              <tr>
+                <td><code>GET /api/prepared-asset-brief/current</code></td>
+                <td>Current ranked brief for site and shift.</td>
+              </tr>
+              <tr>
+                <td><code>GET /api/prepared-asset-brief/:id/recommendations/:recId</code></td>
+                <td>One recommendation with assumptions and prepared WO updates.</td>
+              </tr>
+              <tr>
+                <td><code>POST /api/recommendations/:id/commit</code></td>
+                <td>Apply approved WO update after checks pass.</td>
+              </tr>
+              <tr>
+                <td><code>POST /api/recommendations/:id/assumptions/:checkId/reject</code></td>
+                <td>Capture local context and rerank if needed.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table class="api-table">
+            <thead>
+              <tr>
+                <th>Event</th>
+                <th>Consumer</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>work_order.updated</code></td>
+                <td>Asset resolver and outcome evaluator.</td>
+              </tr>
+              <tr>
+                <td><code>fault.detected</code></td>
+                <td>Candidate generator.</td>
+              </tr>
+              <tr>
+                <td><code>part.inventory_changed</code></td>
+                <td>Feasibility checker.</td>
+              </tr>
+              <tr>
+                <td><code>assumption.rejected</code></td>
+                <td>Recommendation state machine and learning store.</td>
+              </tr>
+              <tr>
+                <td><code>recommendation.committed</code></td>
+                <td>Writeback service and audit log.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="section-label">Writeback safety</div>
+          <h2>The commit path should be intentionally boring</h2>
+        </div>
+        <p>Prepared updates can be smart. Mutations should be conservative, audited, and easy to reverse or explain.</p>
+      </div>
+      <div class="panel-body">
+        <div class="sequence">
+          <article class="flow-step">
+            <span class="step-num">1</span>
+            <h3>Supervisor commits</h3>
+            <p>User approves one prepared update after checks pass.</p>
+          </article>
+          <article class="flow-step">
+            <span class="step-num">2</span>
+            <h3>Verify checks</h3>
+            <p>Required assumptions are confirmed or explicitly overridden.</p>
+          </article>
+          <article class="flow-step">
+            <span class="step-num">3</span>
+            <h3>Check WO version</h3>
+            <p>Prevent stale commits if the WO changed during review.</p>
+          </article>
+          <article class="flow-step">
+            <span class="step-num">4</span>
+            <h3>Apply update</h3>
+            <p>Write with idempotency key and permission check.</p>
+          </article>
+          <article class="flow-step">
+            <span class="step-num">5</span>
+            <h3>Audit trail</h3>
+            <p>Store before, after, actor, source recommendation, and timestamp.</p>
+          </article>
+          <article class="flow-step">
+            <span class="step-num">6</span>
+            <h3>Measure outcome</h3>
+            <p>Track whether the vehicle returned to ready or the WO stalled.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="section-label">Measurement</div>
+          <h2>Metrics the backend can actually emit</h2>
+        </div>
+        <p>These are measurable because they tie to concrete review, commit, rejection, writeback, and outcome events.</p>
+      </div>
+      <div class="panel-body">
+        <div class="metrics-grid">
+          <article class="metric-card">
+            <strong>Prepared recommendation yield</strong>
+            <p>Committed recommendations divided by surfaced recommendations.</p>
+          </article>
+          <article class="metric-card">
+            <strong>False-ready-to-start rate</strong>
+            <p>Assigned work that later stalls on parts, bay, access, staffing, or source quality.</p>
+          </article>
+          <article class="metric-card">
+            <strong>Local check rejection rate</strong>
+            <p>Rejected assumption checks divided by reviewed assumption checks.</p>
+          </article>
+          <article class="metric-card">
+            <strong>Uptime recovered proxy</strong>
+            <p>Vehicles returned to rentable status, weighted by demand pressure and time window.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <p class="footer-note">Prepared Asset Brief backend architecture. AI-drafted visual asset for James review.</p>
+  </main>
+</body>
+</html>

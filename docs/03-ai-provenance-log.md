@@ -74,6 +74,7 @@ Record all substantive AI contributions here. James should be able to say what w
 | 2026-06-16 | James / Codex | Compact assumption checks | JAMES / AI-INFERENCE / code | Needs review | Tightened the Prepared Asset Plan detail view after James said the Assumptions to Verify block used too much vertical space and the Open source button was too large. |
 | 2026-06-17 | James / Codex | Conditional assumption sources | JAMES / AI-INFERENCE / code | Needs review | Updated the Prepared Asset Plan detail view after James pointed out that local floor-truth checks, such as occupied bays or lot access, should not show fake source buttons when the data likely does not live in Samsara. |
 | 2026-06-17 | Codex | Prepared Asset Brief backend architecture | AI-DRAFT / AI-INFERENCE | Needs review | Created `prototype/03-prepared-asset-brief-backend.md` to document backend responsibilities, sourceability, agentic architecture, APIs, data model, writeback safety, events, metrics, and V1 boundaries for James review. |
+| 2026-06-17 | Codex | Prepared Asset Brief architecture visual | AI-DRAFT / AI-INFERENCE | Needs review | Created `sources/prepared-asset-brief-backend-architecture.html`, a static visual asset for reviewing the backend architecture, sourceability contract, agentic loop, API/events, writeback safety, and measurable outcomes. |
 
 ## Tags
 

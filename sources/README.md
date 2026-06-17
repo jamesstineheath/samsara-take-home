@@ -7,6 +7,7 @@ Source inventory starts in `docs/00-constraints-and-sources.md`.
 ## Source Captures
 
 - `sources/samsara-connected-maintenance-page-capture.md` - structured capture of the current Samsara Connected Maintenance product page, accessed 2026-06-13.
+- `sources/prepared-asset-brief-backend-architecture.html` - local HTML visual asset for the Prepared Asset Brief backend and agentic architecture.
 
 When adding research, include:
 
