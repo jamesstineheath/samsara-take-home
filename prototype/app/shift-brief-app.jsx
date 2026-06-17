@@ -925,7 +925,7 @@ function PlanReviewDetail({ decision, packets, onBack, onOpenWorkOrder, sendFeed
                 states={checkStates}
                 onConfirm={confirmCheck}
                 onReject={(check) => setRejectDraft({ check, note: "" })}
-                onOpenSurface={(check) => setOpenedSurface(buildCheckSurface(check))}
+                onOpenSurface={setOpenedSurface}
               />
             </section>
           </div>
@@ -973,6 +973,7 @@ function ContextCheckList({ checks, states, onConfirm, onReject, onOpenSurface }
     <div className="context-check-list">
       {checks.map((check) => {
         const state = states[check]?.status ?? "needs_check";
+        const source = getCheckSource(check);
         return (
           <div className={`context-check ${state}`} key={check}>
             <div className="check-status-icon">
@@ -986,14 +987,16 @@ function ContextCheckList({ checks, states, onConfirm, onReject, onOpenSurface }
               {states[check]?.note && <small>{states[check].note}</small>}
             </div>
             <div className="check-actions">
-              <button
-                className="source-check-link"
-                onClick={() => onOpenSurface(check)}
-                title={getCheckSurfaceLabel(check)}
-              >
-                <ArrowUpRight size={13} />
-                {getCompactCheckSurfaceLabel(check)}
-              </button>
+              {source && (
+                <button
+                  className="source-check-link"
+                  onClick={() => onOpenSurface(source)}
+                  title={`Open ${source.title}`}
+                >
+                  <ArrowUpRight size={13} />
+                  {source.label}
+                </button>
+              )}
               <button className="confirm-check" onClick={() => onConfirm(check)}>
                 Confirm
               </button>
@@ -1008,38 +1011,112 @@ function ContextCheckList({ checks, states, onConfirm, onReject, onOpenSurface }
   );
 }
 
-function getCompactCheckSurfaceLabel(check) {
-  const label = getCheckSurfaceLabel(check).replace(/^Open /, "");
-  return label.charAt(0).toUpperCase() + label.slice(1);
-}
-
-function getCheckSurfaceLabel(check) {
+function getCheckSource(check) {
   const normalized = check.toLowerCase();
-  if (normalized.includes("bay")) return "Open bays";
+
+  if (isLocalOnlyCheck(normalized)) return null;
+
   if (normalized.includes("part") || normalized.includes("po") || normalized.includes("stock")) {
-    return "Open parts";
+    return {
+      label: "Parts",
+      title: "Parts",
+      check,
+      rows: ["Parts or PO record is available", "Inventory confidence may still need floor confirmation", "Rejected checks update the plan"]
+    };
   }
-  if (normalized.includes("tech") || normalized.includes("shift")) return "Open schedule";
-  if (normalized.includes("vendor") || normalized.includes("dealer")) return "Open vendor";
-  if (normalized.includes("warranty") || normalized.includes("coverage")) return "Open warranty";
-  if (normalized.includes("photo") || normalized.includes("evidence")) return "Open evidence";
-  return "Open source";
+
+  if (normalized.includes("cable") || normalized.includes("replacement source")) {
+    return {
+      label: "Parts",
+      title: "Parts",
+      check,
+      rows: ["Part master or stock record is available", "Inventory confidence may still need floor confirmation", "Rejected checks update the plan"]
+    };
+  }
+
+  if (normalized.includes("tech") || normalized.includes("shift")) {
+    return {
+      label: "Schedule",
+      title: "Technician schedule",
+      check,
+      rows: ["Shift schedule is available", "Skill match is available", "Active job count still needs supervisor judgment"]
+    };
+  }
+
+  if (normalized.includes("dvir") || normalized.includes("tpms")) {
+    return {
+      label: "DVIR",
+      title: "DVIR",
+      check,
+      rows: ["DVIR record is available", "Closeout status may need technician confirmation", "Rejected checks update the plan"]
+    };
+  }
+
+  if (normalized.includes("fault") || normalized.includes("diagnostic")) {
+    return {
+      label: "Faults",
+      title: "Faults",
+      check,
+      rows: ["Fault history is available", "Repeat signal is visible", "Release criteria still need supervisor review"]
+    };
+  }
+
+  if (normalized.includes("warranty") || normalized.includes("coverage")) {
+    return {
+      label: "Warranty",
+      title: "Warranty",
+      check,
+      rows: ["Warranty record is available", "Coverage path may need attachment review", "Rejected checks update the plan"]
+    };
+  }
+
+  if (normalized.includes("vendor") || normalized.includes("dealer") || normalized.includes("eta")) {
+    return {
+      label: "Vendor",
+      title: "Vendor",
+      check,
+      rows: ["Vendor record is available", "ETA freshness is visible", "Call or reroute before committing if stale"]
+    };
+  }
+
+  if (normalized.includes("photo") || normalized.includes("evidence")) {
+    return {
+      label: "Evidence",
+      title: "Evidence",
+      check,
+      rows: ["Photo or attachment record is available", "Severity may still need supervisor review", "Rejected checks update the plan"]
+    };
+  }
+
+  if (normalized.includes("pm due")) {
+    return {
+      label: "PM",
+      title: "PM schedule",
+      check,
+      rows: ["Preventive maintenance schedule is available", "Due window is visible", "Rejected checks update the plan"]
+    };
+  }
+
+  return null;
 }
 
-function buildCheckSurface(check) {
-  const surface = getCheckSurfaceLabel(check).replace("Open ", "");
-  const normalized = check.toLowerCase();
-  const rows = normalized.includes("bay")
-    ? ["Bay 04 currently marked open", "Last bay update: 5:48 AM", "Live bay occupancy is partial"]
-    : normalized.includes("part") || normalized.includes("po") || normalized.includes("stock")
-      ? ["Parts staged flag is set", "Inventory scan confidence: medium", "PO and stockroom records may disagree"]
-      : normalized.includes("tech") || normalized.includes("shift")
-        ? ["Tech 7 and Tech 19 are scheduled", "Both have brake skill", "Active job count not yet supervisor-confirmed"]
-        : normalized.includes("vendor") || normalized.includes("dealer")
-          ? ["Vendor ETA is stale", "Last update was previous shift", "Call or reroute before committing"]
-          : ["Source record is available", "Supervisor confirmation is required", "Rejected assumptions update the plan"];
-
-  return { title: surface, check, rows };
+function isLocalOnlyCheck(normalized) {
+  return [
+    "bay",
+    "lot",
+    "accessible",
+    "acknowledged",
+    "runner",
+    "ops agrees",
+    "does not delay",
+    "no ready-line",
+    "safety unaffected",
+    "release criterion",
+    "wo created only if needed",
+    "no tech start",
+    "compact surplus",
+    "severity confirmed"
+  ].some((pattern) => normalized.includes(pattern));
 }
 
 function RejectCheckModal({ draft, setDraft, onCancel, onSave }) {

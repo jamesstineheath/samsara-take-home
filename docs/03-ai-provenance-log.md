@@ -72,6 +72,7 @@ Record all substantive AI contributions here. James should be able to say what w
 | 2026-06-16 | James / Codex | Prototype global-scroll tablet fix | JAMES / AI-INFERENCE / code | Needs review | Updated the Work Orders prototype after James's iPad check: tablet review screens may extend below the fold, but vertical scrolling should be global rather than trapped inside bottom containers. |
 | 2026-06-16 | James / Codex | Parent Work Orders tab | JAMES / AI-INFERENCE / code | Needs review | Implemented the normal parent Work Orders tab as the prototype landing surface, with DB-backed WO rows, subtle Prepared plan badges, and navigation into/back from the Prepared Asset Plan. |
 | 2026-06-16 | James / Codex | Compact assumption checks | JAMES / AI-INFERENCE / code | Needs review | Tightened the Prepared Asset Plan detail view after James said the Assumptions to Verify block used too much vertical space and the Open source button was too large. |
+| 2026-06-17 | James / Codex | Conditional assumption sources | JAMES / AI-INFERENCE / code | Needs review | Updated the Prepared Asset Plan detail view after James pointed out that local floor-truth checks, such as occupied bays or lot access, should not show fake source buttons when the data likely does not live in Samsara. |
 
 ## Tags
 
