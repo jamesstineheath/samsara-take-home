@@ -14,15 +14,16 @@ Prototype principle: one sharp core workflow James can explain beats broad surfa
 
 ## Current Direction
 
-Build a full-stack prototype of **Connected Maintenance > Shift Brief** for Hertz LAX.
+Build a full-stack prototype of **Connected Maintenance > Work Orders** with a **Prepared Asset Plan** review layer for Hertz LAX.
 
-Use a real front end, real backend routes, and a seeded mock database. Build multiple front-end variants against the same backend, then downselect.
+Use a real front end, real backend routes, and a seeded mock database. Work Orders stay the parent surface; the Prepared Asset Plan is the supervisor review flow for ranked asset recommendations and prepared WO updates.
 
 ## Planning Files
 
 - `00-build-plan.md` - architecture, scope, build phases, and UI variants.
 - `01-data-model.md` - mock database plan, tables, seed scenario, and API endpoints.
 - `02-feedback-and-decisions.md` - how feedback and decisions get captured.
+- `03-prepared-asset-brief-backend.md` - backend architecture, agentic loop, data model, and diagrams.
 - `feedback-log.md` - running prototype feedback log.
 - `variant-scorecard.md` - downselect scorecard.
 
